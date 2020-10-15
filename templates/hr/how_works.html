@@ -1,0 +1,160 @@
+{% extends 'basic.html' %}
+
+{% block title%} How Works{% endblock %}
+{% block body %}
+ {% comment %} <button class="navbar-toggler" type="button" data-toggle="sidenav" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style= " color:white; text-color:white;">Menu</span>
+    </button> {% endcomment %}
+{% comment %} <div class="sidenav" id="navbarSupportedContent">
+  <nav id="navbar-example3" class="navbar navbar-light ">
+    <a class="navbar-brand" href="#"></a>
+    <nav class="nav  flex-column">
+      <a class="nav-link deactive" href="#item-1">Tuition</a>
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link ml-3 my-1" href="#item-1-1"> Create Profile</a>
+        <a class="nav-link ml-3 my-1" href="#item-1-2"> Post Tuition</a>
+        <a class="nav-link ml-3 my-1" href="#item-1-3"> New to DesireBD</a>
+        <a class="nav-link ml-3 my-1" href="#item-1-4"> Add Education Details</a>
+      </nav>
+      <a class="nav-link" href="#item-2">Metrimony</a>
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link ml-3 my-1" href="#item-2-1"> Create Profile</a>
+        <a class="nav-link ml-3 my-1" href="#item-2-2"> Create Expectaion</a>
+        <a class="nav-link ml-3 my-1" href="#item-2-3"> View Perfect Matches</a>
+
+      </nav>
+      <a class="nav-link" href="#item-3">To Let</a>
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link ml-3 my-1" href="#item-3-1">Create Post</a>
+        <a class="nav-link ml-3 my-1" href="#item-3-2">View Post</a>
+      </nav>
+    </nav>
+  </nav>
+</div> {% endcomment %}
+<div class="container-fluid">
+<div class="col-md-7 offset-md-3 " style="border:1px dotted blue;">
+  <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+    <h3 id="item-1">Tuition</h3>
+
+    <h4 id="item-1-1">Create Profile</h4>
+    <p>
+      First You need to <a href="/profile/tuitionprofile/"> Create </a> a Tuition Profile for getting Notifications while someone makes a post
+      in need of a teacher. So, for getting Notifications you have to create a tuition profile with the actual details
+      needed. Your provided information will match with the tuition posts which is for in search of a teacher.
+    </p>
+    <h6>Get Notifications</h6>
+    <p>
+      The information provided in teachers tuitionprofile will match with the requirements of a post of Tuition that is
+      in search of a teacher.Then a <a href="/profile/notification/">  Notifications </a>will posted to the teachers profile.
+      <br>
+    </p>
+    <h4 id="item-1-2">Post Tuition</h4>
+    <p>
+      If you need a teacher then please <a href="/posts/createpost/"> Create a post</a> to find the best teacher for you. You have to make
+      your post with proper requirements and if any teachers profile information matches with your requirements then
+      that teacher will be notify with your post link and by visiting your post he can apply for the tuition with
+      his/her contact information.Then you can see their profile for choosing the best one. People also can like and
+      comment on your post.
+      <br>
+    </p>
+    <h4 id="item-1-3">New to DesireBd?</h4>
+    <p>
+     If you want to find a tuition from previously made post then simply <a href="/posts/viewpost/">View</a> post and filter post related to your needs.
+      <br>
+    </p>
+    <h4 id="item-1-4">Add Education Details</h4>
+    <p>
+      If you are a teacher then <a href="/profile/updatessc/">Add</a> education details to give information about your education for creator of tuition post.
+      Thus they can hire you for themselves.
+      <br>
+    </p>
+<br> <br> <br> <br>
+
+    <h3 id="item-2">Metrimony</h3>
+    <h4 id="item-2-1">Metrimony Profile</h4>
+    <p>
+      <a href="/metrimony/personal/">Create</a> a metrimony profile for giving information about yourself for someone who is waiting for you. You have to provide
+      some basic information so that someone can know about yourself and getting interest about you.
+    </p>
+    <h4 id="item-2-2">Metrimony Expectation</h4>
+    <p>
+      Need to find matches for you? Then <a href="/metrimony/expectation/">Make</a> an expectation profile with your requirements. Then when you click find
+      matches program will matches your expectation profile with some other opposite genders information.
+    </p>
+
+    <h4 id="item-2-3">Metrimony Find Best match:</h4>
+    <p>
+      Then you  can see the <a href="/metrimony/partners/">List</a> of best matches and by clicking the persons name you can see their profile and contact
+      information. Then what you will is depends on all about you..
+    </p>
+    <br> <br> <br> <br>
+    <h3 id="item-3">To-Let:</h3>
+
+    <h5 id="item-3-1">Create To-Let</h5>
+    <p>Need to give a rent of your property. It is very simple.. <a href="/tolet/posttolet/"> Create</a> a Post with your property information and
+      property Photo.. People can know about your property and can contact with you by the contact information you have
+      given and can comment and like in your post.. You will always be notify about their likes and comments. </p>
+    <h5 id="item-3-2">View TO-LET post: </h5>
+    <p>Neet a To-let of a type of property. <a href="/tolet/viewtolet/"> Find out</a> that one with filters by choosing category, district and area. Then
+      using contact information provided with that post you can contact with the property owner. </p>
+      
+  </div>
+  </div>
+</div>
+{% endblock body %}
+{% block css %}
+
+
+/* The sidebar menu */
+.sidenav {
+width:200px;
+position: fixed;
+top:0.1;
+<!-- overflow-y: scroll; -->
+background: none;
+
+
+}
+.btn{
+width:auto;
+}
+.carousel-item {
+height:200px;
+}
+p{
+text-align:justify;
+line-height:25px;
+{% comment %} text-shadow: 1px 2px blue; {% endcomment %}
+text-indent:30px;
+padding-left:30px;
+text-transformation: capitalize;
+}
+
+
+/* The navigation menu links */
+.sidenav a {
+
+text-decoration: none;
+font-size: 15px;
+color: white;
+display: block;
+
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+color: #e42b2b;
+}
+ .nav, .nav-pill{
+color:white;
+}
+.nav .nav-link{
+  color:aquamarine;
+  {% comment %} text-shadow: 1px 2x blue; {% endcomment %}
+}
+
+
+
+
+{% endblock %}

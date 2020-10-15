@@ -1,0 +1,93 @@
+{% extends 'basic.html' %}
+{% load humanize %}
+{% block title%} Search Results{% endblock %}
+{% block contactactive %} active{% endblock contactactive %}
+{% block body %}
+{% load crispy_forms_tags %}
+{% load my_filters %}
+{% if user.is_authenticated %}
+<div class="col-md-8 offset-md-2">
+    {% if results %}
+    <h1>
+        <legend class="border-bottom mb-4">Your Search result for "<b>{{query}}</b>" in TuitionPosts</legend>
+    </h1>
+    <br> 
+    {% for post in results %}
+        <div
+            class="row bg-succes no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col  p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 ">
+                    <div>
+                        <a href="/profile/otherprofile/{{post.author.username}}/">
+                            <h4>{{post.author.first_name}} {{post.author.last_name}}</h4>
+                        </a>
+                        <span class="badge badge-secondary">
+                            {{post.timeStamp|naturaltime}}</span>
+                    </div>
+                    -Searching for a Teacher.
+                </strong>
+                <div class="preview">
+                    For <b>{{post.medium}}</b>'s student
+                    in {{post.district}} District
+                    <br>
+                    <b>Salary:</b>{{post.salary}}
+                    <br>
+                    <p class="card-text mb-auto"> <a href="/posts/{{post.sno}}/" class="stretched-link">...Details</a>
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>    
+    {% endfor %}
+    <br>
+    {% else %}
+    <h1>
+        <legend class="border-bottom mb-4">Not found anything for "<b>{{query}}</b>" in TuitionPosts</legend>
+    </h1>
+    <br>
+    {% endif %}
+    {% if mytolet %}
+    <h1>
+        <legend class="border-bottom mb-4">Your search result for "<b>{{query}}</b>" in ToletPost</legend>
+    </h1>
+    <br>
+    {% for post in mytolet %}
+        <div class="row bg-succes no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col  p-4 d-flex flex-column position-static">
+                 <strong class="d-inline-block mb-2 ">
+                    <div>
+                    <a href="/profile/otherprofile/{{post.user.username}}">
+                        <h4>{{post.user.first_name}} {{post.user.last_name}}</h4>
+                    </a>
+                    <span class="badge badge-secondary">
+                        {{post.timestamp|naturaltime}}</span>
+                </div>
+                
+                </strong>
+                <div class="preview">
+                is giving To-let of a <b> <i> {{post.category}} </i></b> in <i><b>{{post.district}} </b></i>
+                
+                <br>
+                <b>Rent:</b>{{post.rent}}
+                    <p class="card-text mb-auto"> <a href="/tolet/toletpost/{{post.id}}"
+                            class="stretched-link">...Details</a></p>
+                    <br>                
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <br>
+    {% else %}
+    <h1>
+        <legend class="border-bottom mb-4">Not found anything for "<b>{{query}}</b>" in ToletPost</legend>
+    </h1>
+    <br>
+    {% endif %}
+    </div>
+    {% endif %}
+    {% endblock %}
+    {% block css %}
+    legend{
+        color:white;
+    }
+    {% endblock  %}

@@ -1,0 +1,151 @@
+{% extends 'basic.html' %}
+
+{% block body %}
+{% load static %}
+
+<div class="container">
+  <div class="col-md-6 offset-md-3">
+    <form action="/show/" method="post">
+      {% csrf_token %}
+
+      <div class="input-group mb-3">
+        <select class="custom-select" id="inputGroupSelect01" name="district_i">
+          <option></option>
+          {% for i in district %}
+          <option value="{{i}}">{{i}}</option>
+          {% endfor %}
+        </select>
+        <div class="input-group-append">
+          <label class="input-group-text" for="inputGroupSelect01">District</label>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <select class="custom-select" id="inputGroupSelect03" name="category_i">
+          <option></option>
+          {% for i in category %}
+          <option value="{{i}}">{{i}}</option>
+          {% endfor %}
+        </select>
+        <div class="input-group-append">
+          <label class="input-group-text" for="inputGroupSelect03">Category</label>
+        </div>
+      </div>
+  </div>
+  <button class="btn btn-outline-info " type="submit" value="submit">Filter Products </button>
+  </form>
+</div>
+</div>
+{% if results %}
+<div class="container-fluid">
+  <h5 class="my-4">Flash Sale On -{{cat}}- Recommended Items in -{{dis}} </h5>
+  <div class="row">
+    {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
+    {% for i in results %}
+    <div class="col-md-4 col-lg-3 col-sm-4 col-6 col-xl-2 py-2">
+      <div class="card text-left  text-white border " style=" background:none;">
+        <img src='{{i.image.url}}' class="card-img-top border d-block m-auto"
+          style=" background:none;  max-width:300px; " alt="...">
+        <div class="card-body">
+          <h5 class="card-title" id="namepr{{i.id}}">{{i.name}}</h5>
+          {% comment %} <p class="card-text">Subcategory: {{i.subcategory}}</p> {% endcomment %}
+          <p class="card-text">in{{i.subdistrict}},{{i.district}}</p>
+          <p class="card-text">{{i.specifications|slice:"0:53"}}...</p>
+          <p class="card-text">Price: Tk.<span id="pricepr{{i.id}}">{{i.price}}</span>only</p>
+          {% comment %} <span id="divpr{{i.id}}" class="divpr">
+            <a id="pr{{i.id}}" href="" class=" cart">Add To Cart</a>
+          </span> {% endcomment %}
+          <a id="qv{{i.id}}" class="cart" href="/prod/{{i.id}}/">QuickView</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% comment %}
+  <div class="container-fluid">
+    <nav class="navbar ">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style=" color:white; text-color:white;">Categories</span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+        <ul class="navbar-nav navbar-expand-md m-auto">
+          {% for cat in category %}
+          <li class="nav-item  d-block w-auto" style="width:100px;"><a href="" class="nav-link"> {{cat.name}}
+              &nbsp;&nbsp;
+            </a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </div> {% endcomment %}
+
+
+
+  <div class="container-fluid">
+        <nav id="navbar-example3" class="navbar navbar-light ">
+        
+          {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
+          <nav class="navbar fixed-bottom bg-white m-auto">
+          
+            {% for cat in category %}
+            <a class="nav-link deactive" href="#{{cat.name}}">{{cat.name}}</a>
+            {% endfor %}
+          </nav>
+        </nav>
+
+
+            {% for product, range, nSlides in allProds %}
+            <h4 id="{{product.0.category}}">Flash Sale On {{product.0.category}} - Recommended Items</h4>
+          <div class="row" data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+            {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
+            {% for i in product %}
+            <div class="col-md-4 col-lg-3 col-sm-4 col-12 col-xl-2 py-2">
+              <div class="card text-left  text-white border " style=" background:none;">
+                <img src='{{i.image.url}}' class="card-img-top border d-block m-auto"
+                  style=" background:none;  max-width:300px; " alt="...">
+                <div class="card-body">
+                  <h5 class="card-title" id="namepr{{i.id}}">{{i.name}}</h5>
+                  {% comment %} <p class="card-text">Subcategory: {{i.subcategory}}</p> {% endcomment %}
+                  <p class="card-text">in{{i.subdistrict}},{{i.district}}</p>
+                  <p class="card-text">{{i.specifications|slice:"0:53"}}...</p>
+                  <p class="card-text">Price: Tk.<span id="pricepr{{i.id}}">{{i.price}}</span>only</p>
+                  {% comment %} <span id="divpr{{i.id}}" class="divpr">
+                    <a id="pr{{i.id}}" href="" class=" cart">Add To Cart</a>
+                  </span> {% endcomment %}
+                  <a id="qv{{i.id}}" class="cart" href="/prod/{{i.id}}/">QuickView</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% endblock %}
+  {% block js %}
+  <script>
+
+  </script>
+  {% endblock %}

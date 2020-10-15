@@ -1,0 +1,37 @@
+<template>
+    <div>
+       <!-- <Navbar/> -->
+       <div class="container">
+{{msg}}
+    <About></About>
+    <Detail></Detail>
+    <Service/>
+    
+    </div>
+    </div>
+</template>
+<script>
+import Navbar from './Navbar.vue'
+import About from './About.vue'
+import Detail from './Detail.vue'
+import Service from './Service.vue'
+
+// Vue.component('pass_compo',require('./components/passdata.vue').default);
+
+
+export default {
+    data(){
+        return{
+                msg:"fahad"
+        }
+    },
+    props:['product'],
+    components:{
+        Navbar,
+        About,
+        Detail,
+        Service,
+    }
+    
+}
+</script>
