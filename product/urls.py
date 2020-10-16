@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import *
-from .api import api_add_to_cart, remove_from_cart
+from .api import api_add_to_cart, remove_from_cart,api_checkout
 from Session.views import homeView
 app_name = 'product'
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('addsub/<int:pk>/', addsubdistrict, name='addsub'),
     path('prod/<int:id>/', prod_detail, name='detail'),
     path('api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
+    path('api_checkout/', api_checkout, name='api_checkout'),
     path('remove_from_cart/', remove_from_cart, name='remove_from_cart'),
     path('cart/', cart_detail, name='cart'),
     path('', homeView.as_view(), name='home'),

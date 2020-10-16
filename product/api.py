@@ -6,7 +6,26 @@ from .cart import Cart
 from .models import Product
 import json
 from django.contrib import messages
+from .utils import checkout
+from .models import Order,OrderItem
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 
+def api_checkout(request):
+    data = json.loads(request.body)
+    jsonresponse = {'success': True} 
+    address = data['address']
+    zipcode = data['zipcode']
+    place = data['place']
+    orderid=checkout(request, request.user,address,zipcode,place)
+    cart=Cart(request)
+    paid=True
+    if paid:
+        order=Order.objects.get(pk=orderid)
+        order.paid=True
+        order.paid_amount=cart.get_total_cost()
+        order.save()
+        cart.clear()
+    return JsonResponse(jsonresponse)
 
 def api_add_to_cart(request):
     data = json.loads(request.body)

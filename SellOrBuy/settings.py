@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-import os
+STRIPE_API_KEY_PUBLISHABLE = "pk_test_51Hcqw7AE1G6rhzhVQm8QWJc5MiiOzvsrpklqDQAdqiWdOWFHMiUGbtQuXyhqZXpWWofDT9gpWO6cVHPBRn188CiL00gyVOpgGY"
+STRIPE_API_KEY_HIDDEN = "sk_test_51Hcqw7AE1G6rhzhVNzaVgXsLfMM5pw5YnBm6ftyxGQ45DcDNN639VrC6NnVKT0Jx6vAwa4FfYJs6aK8ax4r1d87I001J1TdMDd"
 
+
+import os
+from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -28,9 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#Cart
-SESSION_COOKIE_AGE= 86400
-CART_SESSION_ID= 'cart'
+# Cart
+SESSION_COOKIE_AGE = 86400
+CART_SESSION_ID = 'cart'
 
 # Application definition
 
@@ -72,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'product.context_processors.cart',
             ],
         },
     },
