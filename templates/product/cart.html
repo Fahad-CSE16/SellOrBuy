@@ -33,9 +33,11 @@
       </tbody>
       <tfoot>
       <tr>
+
+      {% comment %} [[numItems]]ps [[totalCost]]tk {% endcomment %}
       <td>Total Cost:</td>
-      <td>[[numItems]]</td>
-      <td>[[totalCost]][[totalPrice]]Tk </td>
+      <td>[[totalPiece]]-Piece</td>
+      <td>[[totalPrice]]-Tk </td>
       </tr>
       </tfoot>
     </table>
@@ -69,6 +71,14 @@
             total += parseFloat(item.price * item.quantity);
           });
           return total;
+          },
+          totalPiece() {
+         
+          var totalps = 0;
+          this.products.forEach((item) => {
+            totalps += parseInt( item.quantity);
+          });
+          return totalps;
     },
         },
     mounted() {
