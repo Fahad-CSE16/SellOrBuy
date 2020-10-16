@@ -1,81 +1,73 @@
-{% extends 'basic.html' %}
-
-{% block title %} {{prod.name}}-my cart {% endblock %}
+{% extends 'basic.html' %} {% block title %} {{prod.name}}-my cart {% endblock%}
 {% block body %}
 
 <div class="container" id="productapp">
-
-    <div class="row">
-        <div class="col-md-4 col-sm-8">
-            <div class="row">
-                <img src="{{prod.image.url}}" style="max-height:250px; max-width:250px;">
-            </div>
-            <div class="row">
-                    <button class="btn btn-primary mx-2 my-3">Buy now</button>
-                    <button class="btn btn-primary mx-2 my-3" @click="addToCart({{prod.id}})">Add to Cart</button>
-            </div>
-        </div>
-        <div class="col-md-8 col-sm-12 text-left">
-        <h5> Product Name:{{prod.name}}</h5>
-            <p><b>Price:Mrp Tk.</b>{{prod.price}} Only</p>
-            <p>Details: {{prod.specifications}}</p>
-            <p>District: {{prod.district}}</p>
-            <p>SubDistrict: {{prod.subdistrict}}</p>
-            <p>Category: {{prod.category}}</p>
-            <p>Sub Category: {{prod.subcategory}}</p>
-        </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-8">
+      <div class="row">
+        <img
+          src="{{prod.image.url}}"
+          style="max-height:250px; max-width:250px;"
+        />
+      </div>
+      <div class="row">
+        <button class="btn btn-primary mx-2 my-3">Buy now</button>
+        <button
+          class="btn btn-primary mx-2 my-3"
+          @click="addToCart({{prod.id}})"
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
+    <div class="col-md-8 col-sm-12 text-left">
+      <h5>Product Name:{{prod.name}}</h5>
+      <p><b>Price:Mrp Tk.</b>{{prod.price}} Only</p>
+      <p>Details: {{prod.specifications}}</p>
+      <p>District: {{prod.district}}</p>
+      <p>SubDistrict: {{prod.subdistrict}}</p>
+      <p>Category: {{prod.category}}</p>
+      <p>Sub Category: {{prod.subcategory}}</p>
+    </div>
+  </div>
 </div>
 
-{% endblock %}
-{% block js %}
+{% endblock %} {% block js %}
 <script>
-    var productapp=new Vue({
-        el:'#productapp',
-        delimeters: ['[[',']]'],
-        data(){
-            return{
-
-            }
-        },
-        mounted(){
-            console.log('mounted');
-        },
-        methods:{
-            addToCart(prod_id){
-                console.log('Product_ID:', prod_id);
-                
-                var data= {'product_id': prod_id, 'update':false,'quantity':1};
-
-                fetch('/api_add_to_cart/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken':'{{ csrf_token }}'
-                    },
-                    credentials: 'same-origin',
-                    body: JSON.stringify(data)
-
-                })
-                
-                .then((response)=> {
-                    console.log(response);
-                    
-                })
-                .catch(function(error){
-                    console.log('error 2');
-                    console.log(error);
-                })
-            }
-        }
-    })
-
+  var productapp = new Vue({
+    el: "#productapp",
+    delimiters: ["[[", "]]"],
+    store: store,
+    data() {
+      return {};
+    },
+    mounted() {
+      console.log("mounted");
+    },
+    methods: {
+      addToCart(prod_id) {
+        console.log("Product_ID:", prod_id);
+        var data = { product_id: prod_id, update: false, quantity: 1 };
+        fetch("/api_add_to_cart/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            console.log(response);
+            store.commit("increment", 1);
+          })
+          .catch(function(error) {
+            console.log("error 2");
+            console.log(error);
+          });
+      },
+    },
+  });
 </script>
-{% endblock  %}
-{% comment %} .then((response)=> {
-                    if(result.error){
-                        console.log('error 1');
-                        throw result;
-                    }
-                    return result;
-                }) {% endcomment %}
+{% endblock %} {% comment %} .then((response)=> { if(result.error){
+console.log('error 1'); throw result; } return result; }) {% endcomment %}

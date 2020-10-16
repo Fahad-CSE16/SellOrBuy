@@ -1,16 +1,46 @@
 {% extends 'basic.html' %} {% block body %}
 <div class="text-white" id="cartapp">
   <h1 class="title text-white">Cart</h1>
-  {% if cart %} {% for item in cart %} {% with product=item.product %}
-  <p>
-    Product: {{product.name}}
-    {% comment %} <form @submit="removeProduct({{product.id}})">
-    <button type="submit"> Remove</button>
-    </form> {% endcomment %}
-    <button @click="removeProduct({{product.id}})">Remove</button>
-  </p>
-
-  {% endwith %} {% endfor %} {% else %}
+  {% if cart %}
+  <div class="table " style="background:none;">
+    <table class="table" style="background:none;">
+      <thead>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr v-for="product in products">
+          <td>[[product.title]]</td>
+          <td><button
+              @click="decrementQuantity(product.id,product.quantity,product.price)"
+            >
+              -
+            </button>
+            [[product.quantity]]<button
+              @click="incrementQuantity(product.id,product.quantity,product.price)"
+            >
+              +
+            </button>
+          </td>
+          <td>[[product.total_price]]</td>
+          <td>
+            <button @click="removeProduct(product.id)">Remove</button>
+          </td>
+        </tr>
+        {% comment %} {% endcomment %}
+      </tbody>
+      <tfoot>
+      <tr>
+      <td>Total Cost:</td>
+      <td>[[numItems]]</td>
+      <td>[[totalCost]][[totalPrice]]Tk </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+  {% else %}
   <p>Your cart if empty</p>
 
   {% endif %}
@@ -19,16 +49,105 @@
 <script>
   var cartapp = new Vue({
     el: "#cartapp",
-    delimeters: ["[[", "]]"],
+    delimiters: ['[[', ']]'],
+    store:store,
     data() {
-      return {};
+      return {
+        products: [{{ productsstring|safe }}]
+      }
     },
+    computed: {
+          numItems: function() {
+            return store.state.numItems;
+          },
+          totalCost: function() {
+            return store.state.totalCost;
+          },
+          totalPrice() {
+          var total = 0.0;
+          this.products.forEach((item) => {
+            total += parseFloat(item.price * item.quantity);
+          });
+          return total;
+    },
+        },
     mounted() {
       console.log("mounted");
+      console.log(this.products);
     },
     methods: {
-      removeProduct(prod_id) {
+      incrementQuantity(prod_id, qty,price) {
+        console.log("Product_ID:", prod_id);
+        var data = { 'product_id': prod_id, 'update': true, 'quantity': parseInt(qty) + 1 };
 
+        store.commit('increment',1);
+        store.commit('changeTotalCost',parseFloat(price));
+
+        fetch("/api_add_to_cart/", {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json',
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            console.log(response);
+            for(var i=0; i<this.products.length; i++){
+              var product=this.products[i];
+
+              if(product.id===prod_id){
+                this.products[i].quantity=parseInt(this.products[i].quantity)+1;
+                this.products[i].total_price= parseInt(this.products[i].quantity)*parseFloat(this.products[i].price);
+              }
+            }
+          })
+          .catch(function(error) {
+            console.log("error 2");
+            console.log(error);
+          });
+      },
+       decrementQuantity(prod_id, quantity,price) {
+        console.log("Product_ID:", prod_id);
+        var data = { 
+          'product_id': prod_id,
+          'update': true,
+          'quantity': parseInt(quantity) - 1 
+          };
+          console.log(data['quantity']);
+
+        store.commit('increment',-1);
+        store.commit('changeTotalCost',-parseFloat(price));
+        
+
+
+        fetch("/api_add_to_cart/", {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json',
+            "X-CSRFToken": '{{ csrf_token }}',
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            console.log(response);
+            for(var i=0; i<this.products.length; i++){
+              var product=this.products[i];
+
+              if(product.id===prod_id){
+                this.products[i].quantity=parseInt(this.products[i].quantity)-1;
+                this.products[i].total_price= parseInt(this.products[i].quantity)*parseFloat(this.products[i].price);
+              }
+            }
+          })
+          .catch(function(error) {
+            console.log("error 2");
+            console.log(error);
+          });
+      },
+      removeProduct(prod_id) {
         var data = { product_id: prod_id };
 
         fetch("/remove_from_cart/", {
@@ -40,17 +159,35 @@
           credentials: "same-origin",
           body: JSON.stringify(data),
         })
-        .then((response) => {
+          .then((response) => {
             console.log(response);
-        })
-        .catch(function(error) {
+            this.products = this.products.filter(product=>product.id !== prod_id);
+
+          })
+          .catch(function(error) {
             console.log("error 2");
             console.log(error);
-        });
+          });
         console.log("Product_ID:", prod_id);
-
       },
     },
   });
 </script>
-{% endblock %}
+{% endblock %} {% comment %} {% for item in cart %} {% with product=item.product
+%}
+<tr>
+  <td>{{product.name}}</td>
+  <td>
+    {{item.quantity}}<button
+      @click="incrementQuantity({{product.id}},{{item.quantity}})"
+    >
+      +
+    </button>
+  </td>
+  <td>{{item.total_price}}</td>
+  <td>
+    <button @click="removeProduct({{product.id}})">Remove</button>
+  </td>
+</tr>
+
+{% endwith %} {% endfor %} {% endcomment %}

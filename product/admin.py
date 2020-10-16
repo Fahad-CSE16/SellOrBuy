@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category,District, Subdistrict,Subcategory
+from .models import Product, Category,District, Subdistrict,Subcategory,Order, OrderItem
 # Register your models here.
 class SubDistrictInline(admin.TabularInline):
     model = Subdistrict
@@ -16,6 +16,8 @@ class CategoryAdmin(admin.ModelAdmin):
         SubCategoryInline,
     ]
 admin.site.register(Product)
+admin.site.register(Order)
+admin.site.register(OrderItem)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(District,DistrictAdmin)
 # admin.site.register(Subdistrict)
