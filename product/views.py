@@ -114,10 +114,15 @@ def productshow(request):
         allProds = []
         catprods = Product.objects.values(
             'category', 'id').order_by('-timeStamp')
-        print(catprods)
+        # print(catprods)
         cats = {item['category'] for item in catprods}
         for cat in cats:
             prod = Product.objects.filter(category=cat).order_by('-timeStamp')
+            for p in prod:
+                if cart.has_product(p.id):
+                    p.in_cart=True
+                else:
+                    p.in_cart=False
             n = len(prod)
             nSlides = ceil(n / 4)
             allProds.append([prod, range(1, nSlides), nSlides])
@@ -144,19 +149,29 @@ def prod_detail(request, id):
 
     prod = Product.objects.get(id=id)
 
-    return render(request, 'product/detail.html', {'prod': prod, 'cart': cart})
+    if cart.has_product(prod.id):
+        prod.in_cart=True
+    else:
+        prod.in_cart=False
 
+    return render(request, 'product/detail.html', {'prod': prod, 'cart': cart})
+from django.conf import settings
 
 def cart_detail(request):
     cart = Cart(request)
+    pub_key=settings.STRIPE_API_KEY_PUBLISHABLE
     productsstring = ''
     for item in cart:
         product = item['product']
-        b = "{'id':'%s', 'title':'%s','price':'%s','quantity':'%s', 'total_price':'%s'}," % (
-            product.id, product.name, product.price, item['quantity'], item['total_price'])
+        url='/prod/%s/' % product.id
+        b = "{'id':'%s', 'title':'%s','price':'%s','image':'%s','quantity':'%s', 'total_price':'%s','url':'%s','available_quantity':'%s'}," % (
+            product.id, product.name, product.price, product.image.url, item['quantity'], item['total_price'],url,product.available_quantity)
         productsstring = productsstring + b
     context = {
         'cart': cart,
+        'pub_key':pub_key,
         'productsstring': productsstring
     }
     return render(request, 'product/cart.html', context)
+def success(request):
+    return render(request, 'product/success.html')

@@ -51,7 +51,14 @@ class Product(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+    def get_absolute_url(self):
+        return '/prod/%s/' % (self.id)
 class Order(models.Model):
+    STATUS = (
+        ('Ordered', 'Ordered'),
+        ('Shipped', 'Shipped'),
+        ('Arrived', 'Arrived'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address=models.CharField(max_length=100)
     zipcode=models.CharField(max_length=100)
@@ -59,6 +66,8 @@ class Order(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     paid=models.BooleanField(default=False)
     paid_amount=models.FloatField(blank=True, null=True)
+    shipped_date=models.DateTimeField(blank=True, null=True)
+    status=models.CharField(choices=STATUS, max_length=100, default='Ordered')
     def __str__(self):
         return self.address
 class OrderItem(models.Model):

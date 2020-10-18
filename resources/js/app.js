@@ -8,7 +8,7 @@ new Vue({
     components:{
         app,
     },
-    
+
     template: "<app/>",
 });
  Vue.component('passdata',require('./components/passdata.vue').default);

@@ -87,7 +87,12 @@
 
   <div class="container-fluid " id="productapp">
         <nav id="navbar-example3" class="navbar navbar-light ">
-        
+        <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
+            <strong></strong>Product has added to the cart.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
           <nav class="navbar fixed-bottom bg-white m-auto">
           
@@ -117,7 +122,15 @@
                     <a id="pr{{i.id}}" href="" class=" cart">Add To Cart</a>
                   </span> {% endcomment %}
                   <a id="qv{{i.id}}" class="cart" href="/prod/{{i.id}}/">QuickView</a>
-                    <button class="btn btn-primary mx-2 my-3" @click="addToCart({{i.id}})">Add to Cart</button>
+{% if i.in_cart %}
+          <p>Already In Cart</p>
+        {% else %}
+          {% if i.available_quantity > 0 %}
+<button class="btn btn-primary mx-2 my-3" @click="addToCart({{i.id}})">Add to Cart</button>
+        {% else %}
+       <p class="text-warning">Out Of Stock</p> 
+          {% endif %}
+        {% endif %}
 
                 </div>
               </div>
@@ -154,7 +167,7 @@
         store:store,
         data(){
             return{
-
+              showMeassage:false,
             }
         },
         mounted(){
@@ -180,7 +193,10 @@
                 .then((response)=> {
                     console.log(response);
                 store.commit('increment',1);
-                    
+                this.showMeassage=true;
+                setTimeout(()=>{
+                  this.showMeassage=false
+                },2000)
                 })
                 .catch(function(error){
                     console.log('error 2');

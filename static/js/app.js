@@ -227,6 +227,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // delimiters: ["[[", "]]"],
   props: {
@@ -1168,6 +1169,7 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm._v("\n    bal\n   "),
       _c("h1", { staticClass: "text-white" }, [_vm._v(_vm._s(_vm.prod))]),
       _vm._v(" "),
       _vm._l(_vm.prod, function(product, index) {
