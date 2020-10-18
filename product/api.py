@@ -10,23 +10,48 @@ from .utils import checkout
 from .models import Order,OrderItem
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 
+# TOKEN  generator import
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 def api_checkout(request):
     data = json.loads(request.body)
     jsonresponse = {'success': True} 
     address = data['address']
     zipcode = data['zipcode']
     place = data['place']
-    orderid=checkout(request, request.user,address,zipcode,place)
     cart=Cart(request)
-    paid=True
-    if paid:
-        order=Order.objects.get(pk=orderid)
-        order.paid=True
-        order.paid_amount=cart.get_total_cost()
-        order.save()
-        messages.success(request, 'Successfully Placed Your Order!')
-        cart.clear()
+    user=request.user
+    orderid=checkout(request, request.user,address,zipcode,place)
+    current_site = get_current_site(request)
+    mail_subject = 'Confirm Your Order!'
+    message = render_to_string('product/order_confirm_please.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'cart':cart,
+        'orderid':orderid
+        })
+    to_email = user.email
+    email = EmailMessage(
+        mail_subject, message, to=[to_email]
+    )
+    email.send()
+    order=Order.objects.get(pk=orderid)
+    order.paid_amount=cart.get_total_cost()
+    order.save()
+    cart.clear()
+    messages.success(request, 'Successfully Placed Your Order!, Please confirm from your profiles mail address!')
     return JsonResponse(jsonresponse)
+def confirm_order(request,orderid):
+    order=Order.objects.get(pk=orderid)
+    order.paid=True
+    order.save()
+    messages.success(request, 'Successfully Confirmed Your Order!')
+    return redirect('/show/')
 
 def api_add_to_cart(request):
     data = json.loads(request.body)

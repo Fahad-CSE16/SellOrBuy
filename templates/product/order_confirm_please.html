@@ -1,6 +1,13 @@
 {% autoescape off %}  
 Hi {{ user.username }},  
-Please click on the link to confirm your registration,
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
+You have ordered From SELLORBUY.Com 
+Your Order Id = {{orderid}}
+{% for item in cart %}
+{{item.product.name}}-{{item.quantity}}piece-{{item.product.cost}}tk/ps
+{% endfor %}
+And Your total-Items = {{cart.get_total_length}}-Piece and Total
+              {{cart.get_total_cost}}-Tk
+Please click on the link to confirm your Order,
+http://{{ domain }}/confirm_order/{{orderid}}  
 If you think, it's not you, then just ignore this email.  
 {% endautoescape %}
