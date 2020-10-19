@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import View
 import time
 from math import ceil
-from .models import Product, Category, District, Subdistrict, Subcategory
+from .models import Product, Category, District, Subdistrict, Subcategory,Order,OrderItem
 from .forms import ProductForm, ProductUpForm, VariantForm
 from notifications.signals import notify
 from django.views import generic, View
@@ -83,7 +83,12 @@ class EditProdView(generic.UpdateView):
 
     def get_success_url(self):
         id = self.kwargs['pk']
-        return reverse_lazy('product:home', kwargs={'pk': id})
+        return reverse_lazy('product:addsub', kwargs={'pk': id})
+
+def delete(request,pk):
+    prod=Product.objects.filter(id=pk)
+    prod.delete()
+    return redirect('product:show')
 def variantadd(request,id):
     if request.method=="POST":
         form=VariantForm(request.POST,request.FILES)
@@ -218,3 +223,16 @@ def cart_detail(request):
     return render(request, 'product/cart.html', context)
 def success(request):
     return render(request, 'product/success.html')
+def your_products(request):
+    prod=Product.objects.filter(user=request.user).order_by('timeStamp')
+    context={
+        'prod':prod,
+    }
+    return render(request,'product/your_products.html',context)
+def product_orders(request):
+    prod=OrderItem.objects.filter(owner=request.user)
+    context={
+        'prod':prod
+    }
+    return render(request,'product/product_orders.html',context)
+

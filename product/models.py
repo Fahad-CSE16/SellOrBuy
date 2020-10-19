@@ -77,6 +77,7 @@ class Order(models.Model):
         return sum(int(item.quantity) for item in self.items.all())
 class OrderItem(models.Model):
     order=models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    owner=models.ForeignKey(User, related_name="ownerset", on_delete=models.DO_NOTHING,default=1)
     product=models.ForeignKey(Product, related_name='items_set', on_delete=models.DO_NOTHING)
     price=models.FloatField()
     quantity=models.IntegerField(default=1)

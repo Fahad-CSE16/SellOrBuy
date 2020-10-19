@@ -5,8 +5,12 @@ from Session.views import homeView
 app_name = 'product'
 urlpatterns = [
     path('createprod/', CreateProdView.as_view(), name='create'),
+    path('edit/<int:pk>/', EditProdView.as_view(), name='edit'),
+    path('delete/<int:pk>/', delete, name='delete'),
     path('variant/<int:id>/', variantadd, name='variant'),
     path('vue/', index, name='index'),
+    path('myprod/',your_products, name='myprod'),
+    path('ordered/',product_orders, name='ordered'),
     path('', productshow, name='show'),
     path('search/', search, name='search'),
     path('addsub/<int:pk>/', addsubdistrict, name='addsub'),
