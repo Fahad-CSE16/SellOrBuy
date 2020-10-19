@@ -76,10 +76,18 @@ class Order(models.Model):
     def get_total_quantity(self):
         return sum(int(item.quantity) for item in self.items.all())
 class OrderItem(models.Model):
+    STATUS = (
+        ('Ordered', 'Ordered'),
+        ('Shipped', 'Shipped'),
+        ('Arrived', 'Arrived'),
+    )
     order=models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     owner=models.ForeignKey(User, related_name="ownerset", on_delete=models.DO_NOTHING,default=1)
     product=models.ForeignKey(Product, related_name='items_set', on_delete=models.DO_NOTHING)
     price=models.FloatField()
     quantity=models.IntegerField(default=1)
+    shipped_date=models.DateTimeField(blank=True, null=True)
+    date_of_order=models.DateTimeField(default=now)
+    status=models.CharField(choices=STATUS, max_length=100, default='Ordered')
     def __str__(self):
         return str(self.price)

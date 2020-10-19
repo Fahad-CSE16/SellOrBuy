@@ -230,9 +230,26 @@ def your_products(request):
     }
     return render(request,'product/your_products.html',context)
 def product_orders(request):
-    prod=OrderItem.objects.filter(owner=request.user)
+    
+    items=OrderItem.objects.filter(owner=request.user).order_by('-date_of_order')
+    
+
     context={
-        'prod':prod
+        'items':items
     }
     return render(request,'product/product_orders.html',context)
-
+import datetime
+def items_shipped(request,id):
+    item=OrderItem.objects.get(id=id)
+    item.status="Shipped"
+    item.shipped_date=datetime.datetime.now()
+    item.save()
+    messages.success(request,'Status CHanged to shipped!')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def items_arrived(request,id):
+    item=OrderItem.objects.get(id=id)
+    item.status="Arrived"
+    item.shipped_date=datetime.datetime.now()
+    item.save()
+    messages.success(request,'Status CHanged to Arrived!')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

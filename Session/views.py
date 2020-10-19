@@ -213,17 +213,8 @@ def updateprofile(request):
     }
     # redirect to a new URL:
     return render(request, 'person/updateprofile.html', context)
+from product.models import OrderItem,Order
 def userprofile(request):
     userp = UserProfile.objects.filter(user=request.user)
-    # query = request.user
-    # try:
-    #     mypostauthor = TuitionPost.objects.filter(author=query)
-    # except TuitionPost.DoesNotExist:
-    #     mypostauthor = None
-    # try:
-    #     toletuser = Post.objects.filter(user=query)
-    # except Post.DoesNotExist:
-    #     toletuser = None
-    # myposts=myposts.union(mytolet)
-
-    return render(request, 'person/userprofile.html', {'userp': userp})
+    orders=Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'person/userprofile.html', {'userp': userp,'orders':orders})
