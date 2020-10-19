@@ -5,6 +5,7 @@ from PIL import Image
 from multiselectfield import MultiSelectField
 from django.utils.timezone import now
 
+
 # Create your models here.
 class Category(models.Model):
     name=models.CharField(max_length=100)
@@ -27,6 +28,7 @@ class Subdistrict(models.Model):
     
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parent=models.ForeignKey('self', related_name='variants', on_delete=models.CASCADE,blank=True,null =True)
     name= models.CharField(max_length=100)
     category= models.ForeignKey(Category, related_name="category_set", on_delete=models.CASCADE)
     subcategory=models.CharField(max_length=100)
@@ -63,6 +65,7 @@ class Order(models.Model):
     address=models.CharField(max_length=100)
     zipcode=models.CharField(max_length=100)
     place=models.CharField(max_length=100)
+    phone=models.CharField(max_length=17, default='1')
     created_at=models.DateTimeField(auto_now_add=True)
     paid=models.BooleanField(default=False)
     paid_amount=models.FloatField(blank=True, null=True)
@@ -70,6 +73,8 @@ class Order(models.Model):
     status=models.CharField(choices=STATUS, max_length=100, default='Ordered')
     def __str__(self):
         return self.address
+    def get_total_quantity(self):
+        return sum(int(item.quantity) for item in self.items.all())
 class OrderItem(models.Model):
     order=models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product=models.ForeignKey(Product, related_name='items_set', on_delete=models.DO_NOTHING)

@@ -8,7 +8,7 @@ from django.views.generic import View
 import time
 from math import ceil
 from .models import Product, Category, District, Subdistrict, Subcategory
-from .forms import ProductForm, ProductUpForm
+from .forms import ProductForm, ProductUpForm, VariantForm
 from notifications.signals import notify
 from django.views import generic, View
 from django.urls import reverse_lazy
@@ -23,6 +23,7 @@ class CreateProdView(generic.CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         messages.success(self.request, 'Successfully Created Your Product.')
+        messages.success(self.request, ' Now Add Subdistrict and Subcategory!')
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -60,8 +61,9 @@ def addsubdistrict(request, pk):
             if not subchecks:
                 Subcategory.objects.create(name=sub, category=prod.category)
             form.save()
-            messages.success(request, 'Post Created Successfully. ')
-            return redirect('product:home')
+            messages.success(request, 'Product Created Successfully. ')
+            messages.success(request, 'Add More Varint! ')
+            return redirect(f'/variant/{prod.id}/')
 
     else:
         subdistrict = Subdistrict.objects.filter(district=prod.district)
@@ -82,7 +84,46 @@ class EditProdView(generic.UpdateView):
     def get_success_url(self):
         id = self.kwargs['pk']
         return reverse_lazy('product:home', kwargs={'pk': id})
+def variantadd(request,id):
+    if request.method=="POST":
+        form=VariantForm(request.POST,request.FILES)
+        parent=Product.objects.get(id=id)
+        if form.is_valid():
+            image=form.cleaned_data['image']
+            print(image)
+            obj=form.save(commit=False)
+            obj.user=request.user
+            obj.parent=parent
+            obj.category=parent.category
+            obj.subcategory=parent.subcategory
+            obj.district=parent.district
+            obj.subdistrict=parent.subdistrict
+            obj.phone=parent.phone
+            obj.save()
+            messages.success(request, "Successfully added a varinat!")
 
+    else:
+        form=VariantForm()
+    return render(request,'product/productcreate.html',{'form':form,'pass':True})
+
+
+def search(request):
+    if request.method == "POST":
+        query = request.POST['q']
+        print(query)
+        if query:
+            queryset = (Q(name__icontains=query)) | (
+            Q(specifications__icontains=query)) | (Q(category__name__icontains=query)) | (Q(district__name__icontains=query)) | (Q(subcategory__icontains=query)) | (Q(subdistrict__icontains=query)) | (Q(parent__name__icontains=query))
+            results = Product.objects.filter(queryset).order_by('-timeStamp').distinct()
+        else:
+            
+            results = []
+        # for re in results:
+        #     print(re.name)
+        context= {'query':query,'results':results}
+    else:
+        context= {}
+    return render(request, 'product/search.html',context)
 
 def productshow(request):
     cart = Cart(request)
@@ -117,7 +158,7 @@ def productshow(request):
         # print(catprods)
         cats = {item['category'] for item in catprods}
         for cat in cats:
-            prod = Product.objects.filter(category=cat).order_by('-timeStamp')
+            prod = Product.objects.filter(category=cat).filter(parent=None).order_by('-timeStamp')
             for p in prod:
                 if cart.has_product(p.id):
                     p.in_cart=True
@@ -143,18 +184,20 @@ def index(request):
     context["product"] = json.dumps(product_list)
     return render(request, 'index.html', context)
 
-
+import random
 def prod_detail(request, id):
     cart = Cart(request)
 
     prod = Product.objects.get(id=id)
-
+    related_products=list(prod.category.category_set.filter(parent=None).exclude(id=prod.id))
+    if len(related_products) >= 3:
+        related_products=random.sample(related_products,3)
     if cart.has_product(prod.id):
         prod.in_cart=True
     else:
         prod.in_cart=False
 
-    return render(request, 'product/detail.html', {'prod': prod, 'cart': cart})
+    return render(request, 'product/detail.html', {'prod': prod, 'cart': cart,'related_products':related_products})
 from django.conf import settings
 
 def cart_detail(request):

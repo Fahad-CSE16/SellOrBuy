@@ -6,6 +6,10 @@
 
 {% load crispy_forms_tags %}
 <div class="col-md-6 offset-md-3">
+{% if pass %}
+<h2 class="text-center">ADD More Variant Of This product Or </h2>
+<button class="btn btn-outline-primary"><a href="/">Back TO Home</a></button>
+{% endif %}
         <form  method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group mx-auto">
@@ -15,6 +19,7 @@
             <button class="btn btn-outline-info " type="submit" value="submit">Save </button>
             {% comment %} <input type="submit" value="Submit"> {% endcomment %}
         </form>
+
 
 </div>
 {% endif%}

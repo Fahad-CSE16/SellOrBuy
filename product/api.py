@@ -24,9 +24,10 @@ def api_checkout(request):
     address = data['address']
     zipcode = data['zipcode']
     place = data['place']
+    phone = data['phone']
     cart=Cart(request)
     user=request.user
-    orderid=checkout(request, request.user,address,zipcode,place)
+    orderid=checkout(request, request.user,address,zipcode,place,phone)
     current_site = get_current_site(request)
     mail_subject = 'Confirm Your Order!'
     message = render_to_string('product/order_confirm_please.html', {

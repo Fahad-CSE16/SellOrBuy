@@ -68,7 +68,7 @@ background-size: cover;
       <a
         class="navbar-brand"
         style=" color:white; text-color:white;"
-        href="/show/"
+        href="/"
         >SellOrBuy</a
       >
       <button
@@ -93,15 +93,10 @@ background-size: cover;
             class="nav-item {% block blogactive %}
       {% endblock blogactive %} "
           >
-            <a class="nav-link" href="/show/">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
 
-          <li
-            class="nav-item  {% block contactactive %}
-      {% endblock contactactive %}"
-          >
-            <a class="nav-link" href="/profile/contact/">Contact</a>
-          </li>
+          
 
           <li
             class="nav-item  {% block aboutactive %}
@@ -109,19 +104,22 @@ background-size: cover;
           >
             <a class="nav-link" href="/vue/">About</a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/createprod/">Add Prod</a>
-          </li>
+          
           <li class="nav-item " id="navbarapp">
             <a href="/cart/" class="nav-link"> Cart([[numItems]])</a>
           </li>
           {% comment %}
           <div>{% now "SHORT_DATETIME_FORMAT" %}</div>
           {% endcomment %} {% if user.is_authenticated %}
+          {% if "Seller" in user.userprofile.category %}
+          <li class="nav-item ">
+            <a class="nav-link" href="/createprod/">Add Prod</a>
+          </li>
+          {% endif %}
           <ul class="navbar-nav ml-auto">
             <form
               method="post"
-              action="/posts/search/"
+              action="/search/"
               class="form-inline my-2 my-lg-0"
             >
               {% csrf_token %}

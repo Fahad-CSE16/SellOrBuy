@@ -5,7 +5,8 @@ from django.utils import timezone
 # Register your models here.
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-
+from django.utils import timezone
+import datetime
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('user','address','status','paid','created_at')
     list_filter = ('user', )
@@ -19,7 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
         OrderItemInline,
     ]
     def set_status_shipped(self, request, queryset):
-        count = queryset.update(status='Shipped')
+        count = queryset.update(status='Shipped',shipped_date=datetime.datetime.now())
         self.message_user(request, '{} posts updated'.format(count))
     set_status_shipped.short_description='Set Shipped'
     def set_status_arrived(self, request, queryset):

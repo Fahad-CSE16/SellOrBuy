@@ -70,6 +70,11 @@
               <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="place"
                 v-model="place" required />
             </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Phone</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="place"
+                v-model="phone" required />
+            </div>
             <button type="submit" class="btn btn-primary">Checkout</button>
           </form>
         </div>
@@ -81,7 +86,7 @@
   <p>Your cart if empty</p>
 
   {% endif %}
-  <button @click="buy()">Check Out</button>
+  {% comment %} <button @click="buy()">Check Out</button> {% endcomment %}
 </div>
 {% endblock %} {% block js %}
 <script type="application/javascript" src="https://js.stripe.com/v3/"></script>
@@ -95,6 +100,7 @@
         address: '',
         zipcode: '',
         place: '',
+        phone:'',
         products: [{{ productsstring| safe }}]
   }
     },
@@ -160,7 +166,8 @@
       var data = {
         'address': this.address,
         'zipcode': this.zipcode,
-        'place': this.place
+        'place': this.place,
+        'phone':this.phone,
       };
       fetch("/api_checkout/", {
         method: "POST",

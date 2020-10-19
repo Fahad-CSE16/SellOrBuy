@@ -5,7 +5,6 @@ from .views import *
 # from .views import homeView, ResetPassword,ResetPasswordComplete,ResetPasswordConfirm,ResetPasswordDone
 
 urlpatterns = [
-    path('', homeView.as_view(), name='home'),
     path('signup/', handleSignup, name='signup'),
     path('activate/<uidb64>/<token>/',  activate, name='activate'),
     path('login/', handleLogin, name='login'),

@@ -92,7 +92,7 @@ def handleLogin(request):
                 login(request, user)
                 messages.success(
                     request, f"You are now logged in as {username}")
-                return redirect('home')
+                return redirect('product:show')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -106,7 +106,7 @@ def handleLogin(request):
 def handleLogout(request):
     logout(request)
     messages.success(request, "Successfully logged out!")
-    return redirect('home')
+    return redirect('product:show')
 
 
 def changepass(request):

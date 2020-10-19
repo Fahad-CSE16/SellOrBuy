@@ -4,8 +4,8 @@ from random import randint
 from .cart import Cart
 from .models import Order,OrderItem,Product
 
-def checkout(request, user,address,zipcode,place):
-    order=Order(user=user,address=address,zipcode=zipcode,place=place)
+def checkout(request, user,address,zipcode,place,phone):
+    order=Order(user=user,address=address,zipcode=zipcode,place=place,phone=phone)
     order.save()
     cart= Cart(request)
     for item in cart:

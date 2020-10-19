@@ -7,7 +7,7 @@ from .fields import ListTextWidget
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        exclude = ['user',  'views','subdistrict','subcategory', 'timeStamp']
+        exclude = ['user',  'views','subdistrict','subcategory', 'timeStamp','parent']
 class ProductUpForm(ModelForm):
     class Meta:
         model = Product
@@ -18,3 +18,7 @@ class ProductUpForm(ModelForm):
         super(ProductUpForm, self).__init__(*args, **kwargs)
         self.fields['subdistrict'].widget = ListTextWidget(data_list=_company_list, name='subdistrict-list')
         self.fields['subcategory'].widget = ListTextWidget(data_list=_subcategory_list, name='subcategory-list')
+class VariantForm(ModelForm):
+    class Meta:
+        model=Product
+        fields=('name','specifications','price','available_quantity','image')
