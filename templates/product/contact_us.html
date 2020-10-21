@@ -5,6 +5,7 @@
 {% load crispy_forms_tags %}
 <div class="container">
     <form action="/contact/" method="post">
+    {% csrf_token %}
         <h2>Contact Us</h2>
         <div class="row100">
             <div class="col">
@@ -147,7 +148,6 @@
     height: 100%;
     resize: none;
     
-
 }
 .container .row100 .inputBox textarea:focus + .text,
 .container .row100 .inputBox textarea:valid + .text

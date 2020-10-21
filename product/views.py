@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import View
 import time
 from math import ceil
-from .models import Product, Category, District, Subdistrict, Subcategory,Order,OrderItem
+from .models import Product, Category, District, Subdistrict, Subcategory,Order,OrderItem,ProductReview
 from .forms import ProductForm, ProductUpForm, VariantForm,ContactForm
 from notifications.signals import notify
 from django.views import generic, View
@@ -191,9 +191,15 @@ def index(request):
 
 import random
 def prod_detail(request, id):
+    prod = Product.objects.get(id=id)
+
+    if request.method=='POST':
+        stars=request.POST['stars']
+        content=request.POST['content']
+        ProductReview.objects.create(user=request.user,product=prod,stars=stars,content=content)
+
     cart = Cart(request)
 
-    prod = Product.objects.get(id=id)
     related_products=list(prod.category.category_set.filter(parent=None).exclude(id=prod.id))
     if len(related_products) >= 3:
         related_products=random.sample(related_products,3)

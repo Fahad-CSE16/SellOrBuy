@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category,District, Subdistrict,Subcategory,Order, OrderItem,Contact
+from .models import Product, Category,District, Subdistrict,Subcategory,Order, OrderItem,Contact,ProductReview
 from django.contrib.admin import ModelAdmin
 from django.utils import timezone
 # Register your models here.
@@ -68,6 +68,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(Contact)
+admin.site.register(ProductReview)
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(District,DistrictAdmin)

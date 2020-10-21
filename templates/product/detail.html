@@ -2,33 +2,33 @@
 {% block body %}
 
 <div class="container" id="productapp">
-{% if user == prod.user %}
-<button class="btn btn-outline-primary"><a href="/edit/{{prod.id}}/">EDIT</a> </button>
+  {% if user == prod.user %}
+  <button class="btn btn-outline-primary"><a href="/edit/{{prod.id}}/">EDIT</a> </button>
 
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Delete
-</button>
-<!-- Modal -->
-<div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered">
-    <div class="modal-content" style="background:none; border: 2px solid green;">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">DELETE</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-       Are You Sure to delete {{p.name}}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"><a href="/delete/{{prod.id}}/">Delete</a></button>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Delete
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+      <div class="modal-content" style="background:none; border: 2px solid green;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">DELETE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are You Sure to delete {{p.name}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"><a href="/delete/{{prod.id}}/">Delete</a></button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endif %}
+  {% endif %}
   <div class="row">
     <div class="col-md-4 col-sm-8">
       <div class="row">
@@ -119,12 +119,84 @@
   </div>
   {% if related_products %}
   <h1>Related Products</h1>
-{% with related_products as products %}
-{% include 'product/related.html' %}
-{% endwith %}
-  
+  {% with related_products as products %}
+  {% include 'product/related.html' %}
+  {% endwith %}
   {% endif %}
+  <hr>
+
+
+
+
+
+  <h2>Reviews({{prod.get_rating|floatformat:1}})</h2>
+  <div class="row">
+    {% for review in prod.reviews.all %}
+    <div class="col-md-4 justify-content-left">
+      <p>
+        <strong>Date:</strong>{{review.date_added|date:"Y-m-d"}},
+        <strong>Stars:</strong>{{review.stars}},
+      <p>{{review.content}}</p>
+      
+          </div>
+      {% empty %}
+
+      Product Has No review
+    {% endfor %}
+  </div>
+
+
+
+
+  <div class="container text-white">
+
+    {% if request.user.is_authenticated %}
+    <H1 class="text-white">Review Product</H1>
+    <form action="." method="post">
+      {% csrf_token %}
+      <div class="row">
+
+        <div class="col">
+          <div class="form-group">
+            <label>Stars</label>
+            <div class="control">
+              <div class="select">
+                <select name="stars" id="">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="content">Content</label>
+            <div class="control">
+              <textarea name="content" id="" cols="30" rows="10" class="textarea"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="control">
+          <input type="submit" value="Submit" class="btn btn-sm">
+        </div>
+      </div>
+    </form>
+    {% else %}
+    <p>Please Login to add review</p>
+    {% endif %}
+  </div>
+
+  </p>
+
+
 </div>
+
 
 {% endblock %} {% block js %}
 <script>

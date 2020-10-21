@@ -55,6 +55,9 @@ class Product(models.Model):
             img.save(self.image.path)
     def get_absolute_url(self):
         return '/prod/%s/' % (self.id)
+    def get_rating(self):
+        total=sum(int(review['stars']) for review in self.reviews.values())
+        return total/self.reviews.count()
 class Order(models.Model):
     STATUS = (
         ('Ordered', 'Ordered'),
@@ -99,4 +102,12 @@ class Contact(models.Model):
     details=models.TextField()
     def __str__(self):
         return self.name
-    
+class ProductReview(models.Model):
+    product=models.ForeignKey(Product,related_name='reviews',on_delete=models.CASCADE)
+    user=models.ForeignKey(User,related_name='reviews_user',on_delete=models.CASCADE)
+    content=models.TextField()
+    stars=models.IntegerField()
+    date_added=models.DateTimeField(auto_now_add=True)
+    def get_rating(self):
+        total=sum(int(review['stars']) for review in self.reviws.value())
+        return total/self.reviews.conunt()
