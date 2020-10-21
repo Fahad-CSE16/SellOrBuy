@@ -7,8 +7,13 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
 from django.utils import timezone
 import datetime
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+def order_pdf(obj):
+    return mark_safe('<a href="{}">PDF</a>'.format(reverse('admin_order_pdf',args=[obj.id])))
+order_pdf.short_description='PDF'
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','user','address','status','paid','created_at')
+    list_display = ('id','user','address','status','paid','created_at',order_pdf)
     list_filter = ('user', )
     actions = ('set_status_shipped','set_status_arrived')
     search_fields = ( 'user__username',)
@@ -27,6 +32,7 @@ class OrderAdmin(admin.ModelAdmin):
         count = queryset.update(status='Arrived')
         self.message_user(request, '{} posts updated'.format(count))
     set_status_arrived.short_description='Set Arrived'
+    
     # def get_subjects(self, obj):
     #     return ", ".join([p.name for p in obj.subject.all()])
     # get_subjects.short_description = 'Subjects'

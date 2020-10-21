@@ -57,7 +57,10 @@ class Product(models.Model):
         return '/prod/%s/' % (self.id)
     def get_rating(self):
         total=sum(int(review['stars']) for review in self.reviews.values())
-        return total/self.reviews.count()
+        if self.reviews.count() > 0:
+            return total/self.reviews.count()
+        else:
+            return 0
 class Order(models.Model):
     STATUS = (
         ('Ordered', 'Ordered'),

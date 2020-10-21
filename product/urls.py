@@ -19,7 +19,6 @@ urlpatterns = [
     path('addsub/<int:pk>/', addsubdistrict, name='addsub'),
     path('prod/<int:id>/', prod_detail, name='detail'),
 
-
     path('confirm_order/<int:orderid>/',confirm_order,name="confirm_order"),
     path('api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api_checkout/', api_checkout, name='api_checkout'),

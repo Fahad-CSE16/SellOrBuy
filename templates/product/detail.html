@@ -128,8 +128,11 @@
 
 
 
-
+{% if prod.get_rating %}
   <h2>Reviews({{prod.get_rating|floatformat:1}})</h2>
+{% else %}
+  <h2>Reviews</h2>
+{% endif %}
   <div class="row">
     {% for review in prod.reviews.all %}
     <div class="col-md-4 justify-content-left">

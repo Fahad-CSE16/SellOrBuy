@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    
+    <style>
+    body{
+        font-size:14px;
+
+    }
+    tr.head td,tr.foot td{
+      padding-top:10px;
+      padding-bottom:10px;
+      font-size:18px;
+      font-weight:bold;
+      background-color:white;
+    }
+    tr.footer  td{
+      font-size:14px;
+    }
+    tr.item td{
+      padding-top:3px;
+      padding-bottom:3px;
+      font-size:14px;
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <h1>Invoise #{{order.id}}</h1>
+    <h3>Shipping Address</h3>
+    <p>
+    Name:{{order.user.get_full_name}} <br>
+    Address:{{order.address}} <br>
+    Place:{{order.place}} <br>
+    ZopCOde:{{order.zipcode}} , Phone:{{order.phone}}
+    </p>
+    <h3>Products</h3>
+    <table cellpadding="0" cellspacing="0">
+          <tr class="head" >
+            <td></td>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Total</td>
+          </tr>
+         
+          {% for item in order.items.all %}
+          <tr class="item ">
+              <td>
+                <img src="http://127.0.0.1:8000{{item.product.image.url}}" width="40">
+              </td>
+              <td>
+              {{item.product.name}}
+              </td>
+              <td>
+              pr:{{item.product.price}}
+              </td>
+              <td>
+              qty:{{item.quantity}}
+              </td>
+              <td>
+              t:{{item.price}}
+              </td>
+            </tr>
+          {% endfor %}
+          
+          
+            <tr class="footer">
+               <td>Total Cost:</td>
+              <td>{{order.paid_amount}}</td>
+            </tr>
+          
+        </table>
+        <h3>SellOrBuy</h3>
+        <p>Thanks for ordering from us.</p>
+    </div>
+</body>
+</html>
