@@ -36,7 +36,7 @@ class UserProfile(models.Model):
         ('O-', 'O-'),
 
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='userprofile')
     address = models.CharField(max_length=150)
     phone = models.CharField(max_length=13)
     category = MultiSelectField(choices=CATEGORY,

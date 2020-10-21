@@ -21,7 +21,7 @@ urlpatterns = [
 
     path('userprofile/', userprofile, name='userprofile'),
     path('updateprofile/', updateprofile, name='updateprofile'),
-    # path('otherprofile/<str:slug>/',  otherprofile, name='otherprofile'),
+    path('otherprofile/<str:slug>/',otherprofile, name='otherprofile'),
    
 
     # path('about_us/', homeView.as_view(template_name='person/about_us.html'),

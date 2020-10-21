@@ -8,7 +8,7 @@ from django.views.generic import View
 import time
 from math import ceil
 from .models import Product, Category, District, Subdistrict, Subcategory,Order,OrderItem
-from .forms import ProductForm, ProductUpForm, VariantForm
+from .forms import ProductForm, ProductUpForm, VariantForm,ContactForm
 from notifications.signals import notify
 from django.views import generic, View
 from django.urls import reverse_lazy
@@ -187,7 +187,7 @@ def index(request):
         'user__username', 'name', 'district__name'))
     context = {}
     context["product"] = json.dumps(product_list)
-    return render(request, 'index.html', context)
+    return render(request, 'About.html', context)
 
 import random
 def prod_detail(request, id):
@@ -239,11 +239,35 @@ def product_orders(request):
     }
     return render(request,'product/product_orders.html',context)
 import datetime
+# TOKEN  generator import
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 def items_shipped(request,id):
     item=OrderItem.objects.get(id=id)
     item.status="Shipped"
     item.shipped_date=datetime.datetime.now()
     item.save()
+    orderid=item.order.id
+    user=request.user
+    current_site = get_current_site(request)
+    mail_subject = 'Your product Has Shipped'
+    message = render_to_string('product/order_shipped.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'orderid':orderid,
+        'item':item,
+        })
+    to_email = item.order.user.email
+    email = EmailMessage(
+        mail_subject, message, to=[to_email]
+    )
+    email.send()
+    print(item.order.user.email)
+
     messages.success(request,'Status CHanged to shipped!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def items_arrived(request,id):
@@ -253,3 +277,17 @@ def items_arrived(request,id):
     item.save()
     messages.success(request,'Status CHanged to Arrived!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def contact(request):
+    if request.method=='POST':
+        form=ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Successfully Submitted')
+        return redirect('/')
+    else:
+        form=ContactForm()
+    context={
+        'form':form
+    }
+
+    return render(request,'product/contact_us.html',context)

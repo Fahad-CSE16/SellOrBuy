@@ -1,18 +1,22 @@
 {% extends 'basic.html' %}
 
 {% block body %}
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> {% endcomment %}
 {% comment %} <script type="text/javascript">
     var product = {{ product| safe }};
 </script> {% endcomment %}
 {% load static %}
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <div id="app">
-    
+
     </div>
-    <div id="app2">
+    {% comment %} <div id="app2">
     <passdata :product="'{{product}}'"></passdata>
-    {% comment %} '{{product | safe}}' {% endcomment %}
+    '{{product | safe}}'
+    </div> {% endcomment %}
+    <div id="app2">
+    
     </div>
     <script src="{% static 'js/app.js' %}"></script>
 {% endblock  %}

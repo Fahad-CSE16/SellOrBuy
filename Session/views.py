@@ -218,3 +218,10 @@ def userprofile(request):
     userp = UserProfile.objects.filter(user=request.user)
     orders=Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'person/userprofile.html', {'userp': userp,'orders':orders})
+
+def otherprofile(request,slug):
+    u=User.objects.get(username=slug)
+    context={
+        'u':u
+    }
+    return render(request,'person/otherprofile.html',context)

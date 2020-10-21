@@ -1,0 +1,191 @@
+{% extends 'basic.html' %}
+
+{% block title%} Contact{% endblock %}
+{% block body %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <form action="/contact/" method="post">
+        <h2>Contact Us</h2>
+        <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    {{form.name}}
+                    <span class="text">Name</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="inputBox">
+                    {{form.email}}
+                    <span class="text">Email</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row100">
+            <div class="col">
+                <div class="inputBox">
+                    {{form.address}}
+                    <span class="text">Address</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="inputBox">
+                    {{form.phone}}
+                    <span class="text">Phone</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row100">
+            <div class="col">
+                <div class="inputBox textarea">
+                    {{form.details}}
+                    <span class="text">Type Your Message Here</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row100">
+            <div class="col">
+                <input type="submit" value="Send">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
+{% block css %}
+.container{
+    width:80%;
+    padding: 20px;
+}
+.container h2{
+    width:100%;
+    color: #45f3ff;
+    font-size:36px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.container .row100{
+    position: relative;
+    width:100%;
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+}
+.container .row100 .col{
+    position: relative;
+    width: 100%;
+    padding: 0 10px;
+    margin: 30px 0 10px;
+    transition: 0.5s;
+}
+.container .row100 .inputBox {
+    position: relative;
+    width:100%;
+    height:40px;
+    color:#45f3ff;
+}
+.container .row100 .inputBox input,
+.container .row100 .inputBox textarea{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    font-size:18px;
+    padding: 0 10px;
+    z-index: 1;
+    color:white
+
+}
+.container .row100 .inputBox .text{
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 40px;
+    font-size: 18px;
+    padding: 0 10px;
+    display: block;
+    transition: 0.5s;
+    pointer-events:none;
+
+}
+.container .row100 .inputBox input:focus + .text,
+.container .row100 .inputBox input:valid + .text
+{
+    top: -35px;
+    left: -10px;
+}
+.container .row100 .inputBox .line{
+    position: absolute;
+    bottom: 0;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #45f3ff;
+    transition: 0.5s;
+    border-radius: 2px;
+    pointer-events: none;
+}
+.container .row100 .inputBox input:focus ~ .line,
+.container .row100 .inputBox input:valid ~ .line
+{
+    height: 100%;
+}
+.container .row100 .inputBox.textarea{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+}
+.container .row100 .inputBox.textarea textarea{
+    height: 100%;
+    resize: none;
+    
+
+}
+.container .row100 .inputBox textarea:focus + .text,
+.container .row100 .inputBox textarea:valid + .text
+{
+    top: -35px;
+    left: -10px;
+}
+.container .row100 .inputBox textarea:focus ~ .line,
+.container .row100 .inputBox textarea:valid ~ .line
+{
+    height: 100%;
+}
+input[type="submit"]{
+    border: none;
+    padding: 7px 35px;
+    cursor:pointer;
+    outline:none;
+    background: #45f3ff;
+    color:#000;
+    font-size: 18px;
+    border-radius:2px;
+}
+{% endblock css %}
+
+{% comment %} <div class="col-md-6 offset-md-3">
+
+    <form action="/contact/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group mx-auto">
+            <legend class="border-bottom text-center mb-4">
+                <h2>Contact With Admin</h2>
+            </legend>
+            {{ form.name.errors }}
+            {{ form.name.label_tag }}
+            {{ form.name }}
+
+        </fieldset>
+        <button class="btn btn-outline-info " type="submit" value="submit">Send To Admin </button>
+    </form>
+
+</div> {% endcomment %}

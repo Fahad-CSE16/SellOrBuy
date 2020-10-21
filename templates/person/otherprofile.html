@@ -5,153 +5,31 @@
 {% block body %}
 {% load crispy_forms_tags %}
 {% if user.is_authenticated %}
-<button class="btn " style="width:auto; color:white;"><a href="/metrimony/metrimony_profile/{{user.username}}/">User Profile</a></button>
-
 <div class="col-md-6 offset-md-3">
     <div class="media">
-        <img class="rounded-circle account-img my-2 mx-3 mr-3" src="{{user.userprofile.image.url}}" alt="...">
+        <img class="rounded-circle account-img my-2 mx-3 mr-3" src="{{u.userprofile.image.url}}" alt="...">
         <div class="media-body">
-            <h5 class="mt-0">UserName:{{user.username}}</h5>
-            Name: {{user.first_name}} {{user.last_name}}
+            <h5 class="mt-0">UserName:{{u.username}}</h5>
+            Name: {{u.get_full_name}}
             <br>
-            Email:{{user.email}}
+            Email:{{u.email}}
+
             <br>
         </div>
-    </div>
-    {% if user.userprofile %}
+    </div> 
+    {% if u.userprofile %}
     <div class="ab">
     <b>
         <h3>
-            <legend class="border-bottom mb-4">Personal Information</legend>
+            <legend class="border-bottom mb-4">Other Information</legend>
         </h3>
     </b>
-    <b>Gender &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.userprofile.genre}}</i> <br>
-    <b>Marital Status : </b> <i> {{user.userprofile.marital_status}}</i> <br>
-    <b>Blood Group&nbsp; &nbsp;: </b> <i> {{user.userprofile.blood_group}}</i> <br>
-    <b>Birth Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.userprofile.birth_date}}</i> <br>
-    <b>Religion&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.userprofile.religion}}</i> <br>
-    <b>Profession &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.userprofile.profession}}</i> <br>
-    <b>Adress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;: </b> <i> {{user.userprofile.address}}</i>
-    <br>
-    <b>Nationality&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.userprofile.nationality}}</i> <br>
-    <b>
-        <div class="border-bottom text-center mb-4">Biodata</div>
-    </b> <i>
-        <p> {{user.userprofile.biodata}}</p>
-    </i> <br>
+    <b>Address &nbsp;: </b> <i> {{u.userprofile.address}}</i> <br>
+    <b>Phone&nbsp;&nbsp; &nbsp;: </b> <i> {{u.userprofile.phone}}</i> <br>
+    <b>Category : </b> <i> {{u.userprofile.category}}</i> <br> <br>
     </div>
-    {% endif %} <br><br>
-
-    {% if user.tuitionclass %}
-    <div class="ab">
-
-        <b>
-            <h3>
-                <legend class="border-bottom mb-4">Tuition Related Information</legend>
-            </h3>
-        </b>
-        <b>Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i>
-            {% for cls in user.tuitionclass.level.all %}
-            {{cls}}
-            {% if not forloop.last %}
-            , &nbsp;
-            {% endif %}
-            {% endfor %}
-        </i> <br>
-    <b>Subjects &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i>
-        {% for sub in user.tuitionclass.subject.all %}
-        {{sub}}
-        {% if not forloop.last %}
-        , &nbsp;
-        {% endif %}
-        {% endfor %}
-    </i> <br>
-    <b>Style &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.tuitionclass.style}}</i>
-    <br>
-    <b>Place &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.tuitionclass.place}}</i> <br>
-    <b>Approach &nbsp;&nbsp;&nbsp;: </b> <i> {{user.tuitionclass.approach}}</i> <br>
-    <b>Medium &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.tuitionclass.medium}}</i> <br>
-    <b>District &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.tuitionclass.district}}</i> <br>
-    <b>Places of {{user.tuitionclass.district}}: </b> <i> {% for pls in user.tuitionclass.preferedPlace.all %}
-        {{pls}}
-        {% if not forloop.last %}
-        , &nbsp;
-        {% endif %}
-        {% endfor %}</i> <br>
-        <b>Salary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.tuitionclass.salary}}</i>
-        <br>
-        <b>Days/week&nbsp;&nbsp;&nbsp;: </b> <i> {{user.tuitionclass.days}}</i> <br>
-        <b>Max Degree&nbsp;: </b> <i> {{user.tuitionclass.high_education}}</i> <br>
-        <b>Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.tuitionclass.status}}</i> <br>
+    {% endif %} <br><br> 
     </div>
-        {% endif %} <br><br>
-        
-    {% if user.ssc %}
-    <div class="ab">
-
-        <b>
-            <h3>
-                <legend class="border-bottom mb-4">Secondary School Certificate(SSC)</legend>
-            </h3>
-        </b>
-        <b>Group&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.ssc.group}}</i> <br>
-        <b>Institution&nbsp;&nbsp; &nbsp;: </b> <i> {{user.ssc.institute}}</i> <br>
-        <b>Board &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.ssc.board}}</i> <br>
-        <b>GPA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i>
-            {{user.ssc.gpa}}</i> <br>
-            <b>Passing Year : </b> <i> {{user.ssc.passing_year}}</i> <br>
-            {% endif %} <br><br>
-            
-            {% if user.hsc %}
-            <b>
-                <h3>
-                    <legend class="border-bottom mb-4">Higher School Certificate(SSC)</legend>
-                </h3>
-            </b>
-    <b>Group&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b> <i> {{user.hsc.group}}</i> <br>
-    <b>Institution&nbsp;&nbsp; &nbsp;: </b> <i> {{user.hsc.institute}}</i> <br>
-    <b>Board &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.hsc.board}}</i> <br>
-    <b>GPA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> <i>
-        {{user.hsc.gpa}}</i> <br>
-        <b>Passing Year : </b> <i> {{user.hsc.passing_year}}</i> <br>
-    </div>
-        {% endif %} <br><br>
-        
-        {% if user.afterhsc %}
-        <div class="ab">
-
-            <b>
-                <h3>
-                <legend class="border-bottom mb-4">Undergraduate</legend>
-            </h3>
-        </b>
-        <b>Degree Type&nbsp;&nbsp;&nbsp; : </b> <i> {{user.afterhsc.Etype}}</i> <br>
-        <b>Degree Name&nbsp;&nbsp;: </b> <i> {{user.afterhsc.degree}}</i> <br>
-        <b>Institution&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;: </b> <i> {{user.afterhsc.institute}}</i> <br>
-        <b>GPA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-        </b> <i> {{user.afterhsc.cgpa}}</i> <br>
-        <b>Passing Year &nbsp;&nbsp;&nbsp;&nbsp;: </b> <i> {{user.afterhsc.passing_year}}</i> <br>
-    </div>
-        {% endif %} <br><br>
-        
-        {% if user.higherstudies %}
-        <div class="ab">
-
-            <b>
-                <h3>
-                    <legend class="border-bottom mb-4">Postgraduate</legend>
-                </h3>
-            </b>
-            <b>MSc&nbsp;&nbsp; : </b> <i> {{user.higherstudies.masters}}</i> <br>
-            <b>Phd&nbsp;&nbsp; : </b> <i> {{user.higherstudies.phd}}</i> <br>
-        </div>
-        {% endif %} <br><br>
-        
-        
-        
-    </div>
-    
-
 {% else %}
 <H1>Please Login To see details</H1>
 {% endif %}

@@ -1,0 +1,10 @@
+{% autoescape off %}  
+Hi {{ user.username }},  
+You have ordered From SELLORBUY.Com 
+Your Order Id = {{orderid}}
+{{item.product.name}}-{{item.quantity}}piece-{{item.product.cost}}tk/ps
+Has shipped now by this product owner, you have to receive this product from the nearest Courier Service.
+When product will arrived you will get a call.
+Thank you for being with us.  
+If you think, it's not you, then just ignore this email.  
+{% endautoescape %}

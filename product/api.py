@@ -47,12 +47,19 @@ def api_checkout(request):
     cart.clear()
     messages.success(request, 'Successfully Placed Your Order!, Please confirm from your profiles mail address!')
     return JsonResponse(jsonresponse)
+from notifications.signals import notify
+
 def confirm_order(request,orderid):
     order=Order.objects.get(pk=orderid)
     order.paid=True
     order.save()
+    for i in order.items.all():
+        user = request.user
+        receiver=i.owner
+        notify.send(user, recipient=receiver, level='success',  verb="has ordered for "+str(i.product.name)+" quantity " + str(
+            i.quantity)+" in " + str(i.order.address) + f''' <a class =" btn btn-primary btn-sm " href="/ordered/">SEE</a> ''')
     messages.success(request, 'Successfully Confirmed Your Order!')
-    return redirect('/show/')
+    return redirect('/')
 
 def api_add_to_cart(request):
     data = json.loads(request.body)

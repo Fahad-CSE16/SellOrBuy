@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category,District, Subdistrict,Subcategory,Order, OrderItem
+from .models import Product, Category,District, Subdistrict,Subcategory,Order, OrderItem,Contact
 from django.contrib.admin import ModelAdmin
 from django.utils import timezone
 # Register your models here.
@@ -8,7 +8,7 @@ class OrderItemInline(admin.TabularInline):
 from django.utils import timezone
 import datetime
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user','address','status','paid','created_at')
+    list_display = ('id','user','address','status','paid','created_at')
     list_filter = ('user', )
     actions = ('set_status_shipped','set_status_arrived')
     search_fields = ( 'user__username',)
@@ -33,7 +33,7 @@ class OrderAdmin(admin.ModelAdmin):
     
 # Register your models here.
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('order','owner','product','quantity','status','date_of_order','shipped_date')
+    list_display = ('id','order','owner','product','quantity','status','date_of_order','shipped_date')
     list_filter = ('owner', )
     actions = ('set_status_shipped','set_status_arrived')
     search_fields = ( 'owner__username',)
@@ -67,6 +67,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('user','name','available_quantity')
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Order,OrderAdmin)
+admin.site.register(Contact)
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(District,DistrictAdmin)

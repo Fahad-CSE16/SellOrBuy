@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, DateInput
-from .models import Product
+from .models import Product,Contact
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .fields import ListTextWidget
@@ -22,3 +22,7 @@ class VariantForm(ModelForm):
     class Meta:
         model=Product
         fields=('name','specifications','price','available_quantity','image')
+class ContactForm(ModelForm):
+    class Meta:
+        model=Contact
+        fields='__all__'

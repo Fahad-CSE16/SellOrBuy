@@ -1,11 +1,14 @@
 {% extends 'basic.html' %} {% block body %}
-<div class="container text-white">
-  <div class="col">
+<div class="container-fluid text-white">
+  <div class="col-md-12">
     <table class="table table-striped table-hover bg-secondary table-bordered" style="background:none;">
       <thead class="thead-dark">
         <th>Product</th>
-        <th>Quantity</th>
+        <th>Qty</th>
         <th>Price</th>
+        <th>OrderID</th>
+        <th>OrderBy</th>
+        <th>Confirmation</th>
         <th>Order Adress</th>
         <th>Order Phone</th>
         <th>Order Place</th>
@@ -20,12 +23,16 @@
         {% for i in items %}
         <tr>
           <td>
-            {{i.product.name}}
+           <a class="text-white" href="/prod/{{i.product.id}}/">{{i.product.name}}</a> 
           </td>
           <td>
             {{i.quantity}}
           </td>
           <td>{{i.price}}</td>
+          <td>{{i.order.id}}</td>
+          <td> <a class="text-white" href="/session/otherprofile/{{i.order.user.username}}/"> {{i.order.user}}</a></td>
+          <td>{{i.order.paid}}</td>
+
           <td>{{i.order.address}}</td>
           <td>{{i.order.phone}}</td>
           <td>{{i.order.place}}</td>

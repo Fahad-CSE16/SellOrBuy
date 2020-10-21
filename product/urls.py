@@ -11,6 +11,7 @@ urlpatterns = [
     path('arrived/<int:id>/', items_arrived, name='arrived'),
     path('variant/<int:id>/', variantadd, name='variant'),
     path('vue/', index, name='index'),
+    path('contact/', contact, name='contact'),
     path('myprod/',your_products, name='myprod'),
     path('ordered/',product_orders, name='ordered'),
     path('', productshow, name='show'),

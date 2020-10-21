@@ -58,6 +58,7 @@
     </div>
     <div class="col-md-8 col-sm-12 text-left">
       <h5>Product Name:{{prod.name}}</h5>
+      <p>By: <a href="/session/otherprofile/{{prod.user.username}}/">{{prod.user.get_full_name}}</a> </p>
       <p><b>Price:Mrp Tk.</b>{{prod.price}} Only</p>
       <p>Details: {{prod.specifications}}</p>
       <p>District: {{prod.district}}</p>

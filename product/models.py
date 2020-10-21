@@ -91,3 +91,12 @@ class OrderItem(models.Model):
     status=models.CharField(choices=STATUS, max_length=100, default='Ordered')
     def __str__(self):
         return str(self.price)
+class Contact(models.Model):
+    name=models.CharField(max_length=100)
+    email=models.EmailField()
+    phone=models.CharField(max_length=17)
+    address=models.CharField(max_length=100)
+    details=models.TextField()
+    def __str__(self):
+        return self.name
+    
