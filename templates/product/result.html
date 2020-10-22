@@ -1,24 +1,29 @@
 {% for i in products %}
-    <div class="col-md-4 col-lg-3 col-sm-4 col-6 col-xl-2 py-2 mb-5">
-      <div class="card text-left  text-white border " style=" background:none;">
-        <div class="card-image p-0  m-0">
-            <figure class="image">
-              <img src='{{i.image.url}}' class="card-img-top border d-block m-auto" style=" height:200px; " alt="...">
-            </figure>
+      <div class="col ">
+        
+      <div class="swiper-slide">
+        <div class="slider-box">
+          <p class="time">New</p>
+          <div class="img-box">
+            <img src="{{i.image.url}}" />
           </div>
-        <div class="card-body text-white p-0 pl-2 m-0">
-            <h5 class="card-title text-white font-italic" id="namepr{{i.id}}">{{i.name}}</h5>
-<p class="card-text font-italic">Price: Tk.<span id="pricepr{{i.id}}">{{i.price}}</span>only</p>
-<button class="btn btn-outline-primary"><a id="qv{{i.id}}" class="cart" href="/prod/{{i.id}}/">QuickView</a></button>
-{% if i.in_cart %}
-            <p>Already In Cart</p>
+          <p class="detail">
+            {{i.name}}
+            <a href="#" class="price">Price-{{i.price}}Tk</a>
+            <a class="price" href="/prod/{{i.id}}/">QuickView</a>
+          </p>
+          <div class="cart">
+            {% if i.in_cart %}
+            <a href="#">Already in Cart</a>
+            {% else %} {% if i.available_quantity > 0 %}
+            <a @click="addToCart({{i.id}})" href="#">Add To Cart</a>
             {% else %}
-            {% if i.available_quantity <= 0 %}
-            
-            <p class="text-error border">Out Of Stock</p>
-            {% endif %}
-            {% endif %}
+            <a href="#">Out of Stock</a>
+            {% endif %} {% endif %}
+          </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+
+      
+      </div>
+      {% endfor %}

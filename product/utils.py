@@ -13,5 +13,6 @@ def checkout(request, user,address,zipcode,place,phone):
         i=Product.objects.get(id=id)
         i.available_quantity=i.available_quantity-item['quantity']
         i.save()
-        OrderItem.objects.create(order=order,product=item['product'],price=item['price'], quantity=item['quantity'],owner=i.user)
+        price=float(item['price'])*float(item['quantity'])
+        OrderItem.objects.create(order=order,product=item['product'],price=price, quantity=item['quantity'],owner=i.user)
     return order.id

@@ -35,17 +35,21 @@
         <img src="{{prod.image.url}}" style="max-height:250px; max-width:250px;" />
       </div>
       <div class="row">
-        <button class="btn btn-primary mx-2 my-3">Buy now</button>
+        <!-- <button class="btn btn-primary mx-2 my-3">Buy now</button> -->
 
         {% if prod.in_cart %}
-        <p>Already In Cart</p>
+        <button class="btn btn-primary mx-2 my-3" >
+          Already in Cart
+        </button>
         {% else %}
         {% if prod.available_quantity > 0 %}
         <button class="btn btn-primary mx-2 my-3" @click="addToCart({{prod.id}})">
           Add to Cart
         </button>
         {% else %}
-        <p class="text-warning">Out Of Stock</p>
+        <button class="btn btn-primary mx-2 my-3" >
+          Out of Stock
+        </button>
         {% endif %}
         {% endif %}
         <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
@@ -75,174 +79,222 @@
   <div class="row">
     {% for i in prod.parent.variants.all %}
     {% if i.id == prod.id %}
-    <div class="col-md-4 text-white my-3">
-      <a href="/prod/{{prod.parent.id}}/">
-        <div class="media">
-          <img src="{{prod.parent.image.url}}" style="max-width:200px;max-height:200px;" />
-          <div class="media-body text-white">
-            Name: {{prod.parent.name}}
+    <div class="col ">
+
+      <div class="swiper-slide">
+        <div class="slider-box">
+          <p class="time">New</p>
+          <div class="img-box">
+            <img src="{{i.image.url}}" />
+          </div>
+          <p class="detail">
+            {{i.name}}
+            <a href="#" class="price">Price-{{i.price}}Tk</a>
+            <a class="price" href="/prod/{{prod.parent.id}}/">QuickView</a>
+          </p>
+          <div class="cart">
+            {% if i.in_cart %}
+            <a href="#">Already in Cart</a>
+            {% else %} {% if i.available_quantity > 0 %}
+            <a @click="addToCart({{i.id}})" href="#">Add To Cart</a>
+            {% else %}
+            <a href="#">Out of Stock</a>
+            {% endif %} {% endif %}
           </div>
         </div>
-      </a>
+      </div>
     </div>
     {% else %}
-    <div class="col-md-4 my-3 text-white">
-      <a href="/prod/{{i.id}}/">
-        <div class="media">
-          <img src="{{i.image.url}} " style="max-width:200px;max-height:200px;" />
-          <div class="media-body text-white">
-            Name: {{i.name}}
+    <div class="col ">
+
+      <div class="swiper-slide">
+        <div class="slider-box">
+          <p class="time">New</p>
+          <div class="img-box">
+            <img src="{{i.image.url}}" />
+          </div>
+          <p class="detail">
+            {{i.name}}
+            <a href="#" class="price">Price-{{i.price}}Tk</a>
+            <a class="price" href="/prod/{{i.id}}/">QuickView</a>
+          </p>
+          <div class="cart">
+            {% if i.in_cart %}
+            <a href="#">Already in Cart</a>
+            {% else %} {% if i.available_quantity > 0 %}
+            <a @click="addToCart({{i.id}})" href="#">Add To Cart</a>
+            {% else %}
+            <a href="#">Out of Stock</a>
+            {% endif %} {% endif %}
           </div>
         </div>
-      </a>
+      </div>
     </div>
+
+
     {% endif %}
+
+
     {% endfor %}
 
     {% for i in prod.variants.all %}
-    <div class="col-md-4  my-3 text-white">
-      <a href="/prod/{{i.id}}/">
-        <div class="media">
-          <img src="{{i.image.url}}" style="max-width:200px;max-height:200px;" />
-          <div class="media-body text-white">
-            Name: {{i.name}}
+    <div class="col ">
+
+      <div class="swiper-slide">
+        <div class="slider-box">
+          <p class="time">New</p>
+          <div class="img-box">
+            <img src="{{i.image.url}}" />
+          </div>
+          <p class="detail">
+            {{i.name}}
+            <a href="#" class="price">Price-{{i.price}}Tk</a>
+            <a class="price" href="/prod/{{i.id}}/">QuickView</a>
+          </p>
+          <div class="cart">
+            {% if i.in_cart %}
+            <a href="#">Already in Cart</a>
+            {% else %} {% if i.available_quantity > 0 %}
+            <a @click="addToCart({{i.id}})" href="#">Add To Cart</a>
+            {% else %}
+            <a href="#">Out of Stock</a>
+            {% endif %} {% endif %}
           </div>
         </div>
-      </a>
+      </div>
+
     </div>
     {% endfor %}
 
 
 
 
-
+</div>
+    {% if related_products %}
+    <h1>Related Products</h1>
+    <div class="row">
+  
+    {% with related_products as products %}
+    {% include 'product/result.html' %}
+    {% endwith %}
+        
   </div>
-  {% if related_products %}
-  <h1>Related Products</h1>
-  {% with related_products as products %}
-  {% include 'product/related.html' %}
-  {% endwith %}
-  {% endif %}
-  <hr>
+    {% endif %}
+    <hr>
 
 
 
 
-{% if prod.get_rating %}
-  <h2>Reviews({{prod.get_rating|floatformat:1}})</h2>
-{% else %}
-  <h2>Reviews</h2>
-{% endif %}
-  <div class="row">
-    {% for review in prod.reviews.all %}
-    <div class="col-md-4 justify-content-left">
-      <p>
-        <strong>Date:</strong>{{review.date_added|date:"Y-m-d"}},
-        <strong>Stars:</strong>{{review.stars}},
-      <p>{{review.content}}</p>
-      
-          </div>
+    {% if prod.get_rating %}
+    <h2>Reviews({{prod.get_rating|floatformat:1}})</h2>
+    {% else %}
+    <h2>Reviews</h2>
+    {% endif %}
+    <div class="row">
+      {% for review in prod.reviews.all %}
+      <div class="col-md-4 justify-content-left">
+        <p>
+          <strong>Date:</strong>{{review.date_added|date:"Y-m-d"}},
+          <strong>Stars:</strong>{{review.stars}},
+        <p>{{review.content}}</p>
+
+      </div>
       {% empty %}
 
       Product Has No review
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
 
 
 
 
-  <div class="container text-white">
+    <div class="container text-white">
 
-    {% if request.user.is_authenticated %}
-    <H1 class="text-white">Review Product</H1>
-    <form action="." method="post">
-      {% csrf_token %}
-      <div class="row">
+      {% if request.user.is_authenticated %}
+      <H1 class="text-white">Review Product</H1>
+      <form action="." method="post">
+        {% csrf_token %}
+        <div class="row">
 
-        <div class="col">
-          <div class="form-group">
-            <label>Stars</label>
-            <div class="control">
-              <div class="select">
-                <select name="stars" id="">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3" selected>3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
+          <div class="col">
+            <div class="form-group">
+              <label>Stars</label>
+              <div class="control">
+                <div class="select">
+                  <select name="stars" id="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="content">Content</label>
+              <div class="control">
+                <textarea name="content" id="" cols="30" rows="10" class="textarea"></textarea>
               </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="content">Content</label>
-            <div class="control">
-              <textarea name="content" id="" cols="30" rows="10" class="textarea"></textarea>
-            </div>
+        <div class="row">
+          <div class="control">
+            <input type="submit" value="Submit" class="btn btn-sm">
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="control">
-          <input type="submit" value="Submit" class="btn btn-sm">
-        </div>
-      </div>
-    </form>
-    {% else %}
-    <p>Please Login to add review</p>
-    {% endif %}
-  </div>
+      </form>
+      {% else %}
+      <p>Please Login to add review</p>
+      {% endif %}
+    </div>
 
-  </p>
-
-
-</div>
-
-
-{% endblock %} {% block js %}
-<script>
-  var productapp = new Vue({
-    el: "#productapp",
-    delimiters: ["[[", "]]"],
-    store: store,
-    data() {
-      return {
-        showMeassage: false,
-      };
-    },
-    mounted() {
-      console.log("mounted");
-    },
-    methods: {
-      addToCart(prod_id) {
-        console.log("Product_ID:", prod_id);
-        var data = { product_id: prod_id, update: false, quantity: 1 };
-        fetch("/api_add_to_cart/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          credentials: "same-origin",
-          body: JSON.stringify(data),
-        })
-          .then((response) => {
-            console.log(response);
-            store.commit("increment", 1);
-            this.showMeassage = true;
-            setTimeout(() => {
-              this.showMeassage = false
-            }, 2000)
-          })
-          .catch(function (error) {
-            console.log("error 2");
-            console.log(error);
-          });
+    </p>
+  {% endblock %} {% block js %}
+  <script>
+    var productapp = new Vue({
+      el: "#productapp",
+      delimiters: ["[[", "]]"],
+      store: store,
+      data() {
+        return {
+          showMeassage: false,
+        };
       },
-    },
-  });
-</script>
-{% endblock %} {% comment %} .then((response)=> { if(result.error){
-console.log('error 1'); throw result; } return result; }) {% endcomment %}
+      mounted() {
+        console.log("mounted");
+      },
+      methods: {
+        addToCart(prod_id) {
+          console.log("Product_ID:", prod_id);
+          var data = { product_id: prod_id, update: false, quantity: 1 };
+          fetch("/api_add_to_cart/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}",
+            },
+            credentials: "same-origin",
+            body: JSON.stringify(data),
+          })
+            .then((response) => {
+              console.log(response);
+              store.commit("increment", 1);
+              this.showMeassage = true;
+              setTimeout(() => {
+                this.showMeassage = false
+              }, 2000)
+            })
+            .catch(function (error) {
+              console.log("error 2");
+              console.log(error);
+            });
+        },
+      },
+    });
+  </script>
+  {% endblock %} {% comment %} .then((response)=> { if(result.error){
+  console.log('error 1'); throw result; } return result; }) {% endcomment %}
