@@ -10,7 +10,7 @@
 
       <div class="input-group mb-3">
         <select class="custom-select" id="inputGroupSelect01" name="district_i">
-          <option></option>
+          <option value="{{dis}}">{{dis}}</option>
           {% for i in district %}
           <option value="{{i}}">{{i}}</option>
           {% endfor %}
@@ -22,7 +22,7 @@
 
       <div class="input-group mb-3">
         <select class="custom-select" id="inputGroupSelect03" name="category_i">
-          <option></option>
+          <option value="{{cat}}">{{cat}}</option>
           {% for i in category %}
           <option value="{{i}}">{{i}}</option>
           {% endfor %}
@@ -31,13 +31,39 @@
           <label class="input-group-text" for="inputGroupSelect03">Category</label>
         </div>
       </div>
+      <div class="input-group mb-3">
+        
+        <select class="custom-select" id="inputGroupSelect01" name="sorting">
+          
+          <option value="-timeStamp" {% if sorting == '-timeStamp' %}selected{% endif %}>Newest First</option>
+          <option value="price"{% if sorting == 'price' %}selected{% endif %}>Price Low to High</option>
+          <option value="-price"{% if sorting == '-price' %}selected{% endif %}>Price High to Low</option>
+        </select>
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01" >Sort By</label>
+        </div>
+      </div>
+      <div class=" row">
+      <div class="col form-group">
+        <label >Price From</label>
+        <input type="number" class="form-control" name="price_from" value="{{price_from}}"></div>
+      <div class="col form-group">
+        <label >Price TO</label>
+        <input type="number" class="form-control" name="price_to" value="{{price_to}}"></div>
+      </div>
+      
+      <div class="form-check justify-content-left">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="inStock" {% if inStock %}checked="checked"{% endif %}>
+        <label class="form-check-label" for="exampleCheck1">In Stock</label>
+      </div>
+      
   </div>
   <button class="btn btn-outline-info " type="submit" value="submit">Filter Products </button>
   </form>
 </div>
 </div>
 {% if results %}
-<div class="container-fluid">
+<div class="container-fluid" id="productapp">
   <h5 class="my-4">Flash Sale On -{{cat}}- Recommended Items in -{{dis}} </h5>
   <div class="row">
     {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
@@ -84,7 +110,7 @@
           <div class="img-box">
             <img src="{{i.image.url}}" />
           </div>
-          <p class="detail">
+          <p class="detail text-dark">
             {{i.name}}
             <a href="#" class="price">Price-{{i.price}}Tk</a>
             <a class="price" href="/prod/{{i.id}}/">QuickView</a>

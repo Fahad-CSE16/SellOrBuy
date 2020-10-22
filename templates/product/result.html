@@ -7,7 +7,7 @@
           <div class="img-box">
             <img src="{{i.image.url}}" />
           </div>
-          <p class="detail">
+          <p class="detail text-dark">
             {{i.name}}
             <a href="#" class="price">Price-{{i.price}}Tk</a>
             <a class="price" href="/prod/{{i.id}}/">QuickView</a>
@@ -27,3 +27,51 @@
       
       </div>
       {% endfor %}
+
+      <script>
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[', ']]'],
+    store: store,
+    data() {
+      return {
+        showMeassage: false,
+      }
+    },
+    mounted() {
+      console.log('mounted');
+    },
+    methods: {
+      addToCart(prod_id) {
+        console.log('Product_ID:', prod_id);
+
+        var data = { 'product_id': prod_id, 'update': false, 'quantity': 1 };
+
+        fetch('/api_add_to_cart/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify(data)
+
+        })
+
+          .then((response) => {
+            console.log(response);
+            store.commit('increment', 1);
+            this.showMeassage = true;
+            setTimeout(() => {
+              this.showMeassage = false
+            }, 2000)
+          })
+          .catch(function (error) {
+            console.log('error 2');
+            console.log(error);
+          })
+      }
+    }
+  })
+
+</script>

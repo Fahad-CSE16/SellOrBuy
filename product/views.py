@@ -138,20 +138,34 @@ def productshow(request):
     if request.method == "POST":
         dis = request.POST['district_i']
         cat = request.POST['category_i']
+        inStock = request.POST.get('inStock')
+        price_from = request.POST.get('price_from', 1)
+        price_to = request.POST.get('price_to', 1000000)
+        sorting = request.POST.get('sorting',)
+        if not price_from:
+            price_from=1
+        if not price_to:
+            price_to=1000000
         if dis or cat:
             queryset = (Q(district__name__icontains=dis)) & (
                 Q(category__name__icontains=cat))
             results = Product.objects.filter(
-                queryset).order_by('-timeStamp').distinct()
+                queryset).filter(price__gte=price_from).filter(price__lte=price_to).order_by('-timeStamp').distinct()
         else:
             results = []
+        if inStock:
+            results=results.filter(available_quantity__gte=1)
         params = {
-            'results': results,
+            'results': results.order_by(sorting),
             'district': district,
             'category': category,
             'dis': dis,
             'cat': cat,
-            'cart': cart
+            'cart': cart,
+            'price_to':price_to,
+            'price_from':price_from,
+            'inStock':inStock,
+            'sorting':sorting
         }
 
     else:
