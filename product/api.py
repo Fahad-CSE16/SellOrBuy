@@ -48,11 +48,34 @@ def api_checkout(request):
     messages.success(request, 'Successfully Placed Your Order!, Please confirm from your profiles mail address!')
     return JsonResponse(jsonresponse)
 from notifications.signals import notify
-
+from django.core.mail import EmailMultiAlternatives
+from .pdf import render_to_pdf
 def confirm_order(request,orderid):
     order=Order.objects.get(pk=orderid)
     order.paid=True
     order.save()
+    # subject='Order Confirmation'
+    # from_email='hmdfahad.49@gamil.com'
+    # to=[request.user.email]
+    # text_content='your Order is successfull!'
+    # html_content=render_to_string('product/order_confirmation.html',{'order':order})
+    # pdf=render_to_pdf('order_pdf.html',{'order':order})
+    # msg=EmailMultiAlternatives(subject,html_content,from_email,to)
+    # msg.attach_alternative(html_content,"text/html")
+    # if pdf:
+        
+    #     # name='order_%s' % order.id
+    #     # msg.attach(name,pdf,'application/pdf')
+    #     response = HttpResponse(pdf, content_type='application/pdf')
+    #     filename = "Invoice_%s.pdf" %("12341231")
+    #     content = "inline; filename=%s.pdf" % order.id
+    #     download = request.GET.get("download")
+    #     content = "attachment; filename='%s'" %(filename)
+    #     response['Content-Disposition'] = content
+    #     msg.attach(filename,response,'application/pdf')
+    # msg.content_subtype = "pdf"  # Main content is now text/html
+    # # msg.encoding = 'us-ascii'
+    # msg.send()
     for i in order.items.all():
         user = request.user
         receiver=i.owner

@@ -1,12 +1,13 @@
 from django.urls import path, include
 from .views import *
+from .pdf import admin_order_pdf
 from .api import api_add_to_cart, remove_from_cart,api_checkout,create_checkout_session,confirm_order
 from Session.views import homeView
 app_name = 'product'
 urlpatterns = [
     path('createprod/', CreateProdView.as_view(), name='create'),
     path('edit/<int:pk>/', EditProdView.as_view(), name='edit'),
-    path('delete/<int:pk>/', delete, name='delete'),
+    path('delete/<int:id>/', delete, name='delete'),
     path('ship/<int:id>/', items_shipped, name='ship'),
     path('arrived/<int:id>/', items_arrived, name='arrived'),
     path('variant/<int:id>/', variantadd, name='variant'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('addsub/<int:pk>/', addsubdistrict, name='addsub'),
     path('prod/<int:id>/', prod_detail, name='detail'),
+    path('order_pdf/<int:order_id>/', admin_order_pdf, name='admin_order_pdf'),
 
     path('confirm_order/<int:orderid>/',confirm_order,name="confirm_order"),
     path('api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),

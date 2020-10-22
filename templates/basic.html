@@ -1,294 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-      crossorigin="anonymous"
-    />
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>{% block title%} {% endblock %}</title>
-    {% load notifications_tags %} {% load static %}
-    <script
-      src="{% static 'notifications/notify.js' %}"
-      type="text/javascript"
-    ></script>
-    <link href="{% static 'css/style.css'  %}" rel="stylesheet" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
 
-    <style>
-          {% block css %}
-          .textinput {
-          width: 100%;
-          border: none;
-          outline: none;
-          background: none;
-          color: white;
-          /* text-shadow: 1px 2px blue; */
-          float: left;
-          margin: 0 10px;
-          font-size: 18px;
-          border: 1px solid green;
-      }
-      .form-group textarea{
-          border: 1px solid green;
+  <title>{% block title%} {% endblock %}</title>
+  {% load notifications_tags %} {% load static %}
+  <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+  <link href="{% static 'css/style.css'  %}" rel="stylesheet" />
 
-      }
-      .form-group .numberinput {
-        background:none;
-        border: 1px solid green;
-      }
-            {% endblock css %}
-    </style>
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <style>
+    {% block css %}
 
-  </head>
+    .textinput {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: none;
+      color: white;
+      /* text-shadow: 1px 2px blue; */
+      float: left;
+      margin: 0 10px;
+      font-size: 18px;
+      border: 1px solid green;
+    }
 
-  <body
-    style="background:  linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('/static/images/black-drops.jpg');
+    .form-group textarea {
+      border: 1px solid green;
+
+    }
+
+    .form-group .numberinput {
+      background: none;
+      border: 1px solid green;
+    }
+
+      {% endblock css %}
+  </style>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+</head>
+
+<body style="background:  linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('/static/images/black-drops.jpg');
 background-size: cover;
       background-attachment: fixed;
-      background-position: top;"
-  >
-    <nav
-      class="navbar navbar-expand-xl navbar-light "
-      style="background:none; color:white; text-color:white;"
-    >
-      <a
-        class="navbar-brand"
-        style=" color:white; text-color:white;"
-        href="/"
-        >SellOrBuy</a
-      >
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span
-          class="navbar-toggler-icon"
-          style=" color:white; text-color:white;"
-          >Menu</span
-        >
-      </button>
+      background-position: top;">
+  <nav class="navbar navbar-expand-xl navbar-light " style="background:none; color:white; text-color:white;">
+    <a class="navbar-brand" style=" color:white; text-color:white;" href="/">SellOrBuy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style=" color:white; text-color:white;">Menu</span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav m-auto">
-          <li
-            class="nav-item {% block blogactive %}
-      {% endblock blogactive %} "
-          >
-            <a class="nav-link" href="/">Home</a>
-          </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item {% block blogactive %}
+      {% endblock blogactive %} ">
+          <a class="nav-link" href="/">Home</a>
+        </li>
 
-          
 
-          <li
-            class="nav-item  {% block aboutactive %}
-      {% endblock aboutactive %}"
-          >
-            <a class="nav-link" href="/vue/">About</a>
-          </li>
-          <li
-            class="nav-item  "
-          >
-            <a class="nav-link" href="/contact/">Contact</a>
-          </li>
-          
-          <li class="nav-item " id="navbarapp">
-            <a href="/cart/" class="nav-link"> Cart([[numItems]])</a>
-          </li>
-          {% comment %}
-          <div>{% now "SHORT_DATETIME_FORMAT" %}</div>
-          {% endcomment %} {% if user.is_authenticated %}
-          {% if "Seller" in user.userprofile.category %}
-          <li class="nav-item ">
-            <a class="nav-link" href="/createprod/">Add Prod</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/myprod/">My Products</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/ordered/">Product Orders</a>
-          </li>
-          {% endif %}
-          <ul class="navbar-nav ml-auto">
-            <form
-              method="post"
-              action="/search/"
-              class="form-inline my-2 my-lg-0"
-            >
-              {% csrf_token %}
-              <li>
-                <input
-                  class="form-control mr-sm-2 "
-                  style="background:none;color:white;"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  name="q"
-                  id="q"
-                />
-              </li>
 
-              <li>
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
-                  Search
-                </button>
-              </li>
-            </form>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                {{request.user}}
-              </a>
-              <div
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdown"
-                style="background:none; color:white;"
-              >
-                <a
-                  class="dropdown-item"
-                  style=" color:#26f1fb;"
-                  href="/session/userprofile/"
-                  >Profile</a
-                >
-                <a
-                  class="dropdown-item"
-                  style=" color:#26f1fb;"
-                  href="/session/notification/"
-                  >Notifications</a
-                >
-                <a
-                  class="dropdown-item"
-                  style=" color:#26f1fb;"
-                  href="/session/logout/"
-                  >Logout</a
-                >
-              </div>
+        <li class="nav-item  {% block aboutactive %}
+      {% endblock aboutactive %}">
+          <a class="nav-link" href="/vue/">About</a>
+        </li>
+        <li class="nav-item  ">
+          <a class="nav-link" href="/contact/">Contact</a>
+        </li>
+
+        <li class="nav-item " id="navbarapp">
+          <a href="/cart/" class="nav-link"> Cart([[numItems]])</a>
+        </li>
+        {% comment %}
+        <div>{% now "SHORT_DATETIME_FORMAT" %}</div>
+        {% endcomment %}
+         {% if user.is_authenticated %}
+        {% if "Seller" in user.userprofile.category %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            My Business
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background:none; color:white;">
+            <a class="dropdown-item" style=" color:#26f1fb;" href="/createprod/">Add Prod</a>
+            <a class="dropdown-item" style=" color:#26f1fb;" href="/myprod/">My Products</a>
+            <a class="dropdown-item" style=" color:#26f1fb;" href="/ordered/">Product Orders</a>
+          </div>
+        </li>
+        
+        {% endif %}
+        <ul class="navbar-nav ml-auto">
+          <form method="post" action="/search/" class="form-inline my-2 my-lg-0">
+            {% csrf_token %}
+            <li>
+              <input class="form-control mr-sm-2 " style="background:none;color:white;" type="search"
+                placeholder="Search" aria-label="Search" name="q" id="q" />
             </li>
-          </ul>
-          {% else %}
 
-          <li
-            class="nav-item  {% block signup %}
-      {% endblock signup %}"
-          >
-            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-          </li>
-          <li
-            class="nav-item  {% block login %}
-      {% endblock login %}"
-          >
-            <a class="nav-link" href="/session/login/">Login</a>
-          </li>
-
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href=""
-              >{% now "h:i A" as current_time %} {{ current_time|center:"150"}}</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">{% now "D jS F Y" %}</a>
+            <li>
+              <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+                Search
+              </button>
+            </li>
+          </form>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{request.user}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background:none; color:white;">
+              <a class="dropdown-item" style=" color:#26f1fb;" href="/session/userprofile/">Profile</a>
+              <a class="dropdown-item" style=" color:#26f1fb;" href="/session/notification/">Notifications</a>
+              <a class="dropdown-item" style=" color:#26f1fb;" href="/session/logout/">Logout</a>
+            </div>
           </li>
         </ul>
-      </div>
-    </nav>
+        {% else %}
 
-    {% for message in messages %}
+        <li class="nav-item  {% block signup %}
+      {% endblock signup %}">
+          <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+        </li>
+        <li class="nav-item  {% block login %}
+      {% endblock login %}">
+          <a class="nav-link" href="/session/login/">Login</a>
+        </li>
 
-    <div
-      class="alert alert-{{ message.tags }} alert-dismissible fade show"
-      role="alert"
-    >
-      <strong></strong> {{ message }}
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="">{% now "h:i A" as current_time %} {{ current_time|center:"150"}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">{% now "D jS F Y" %}</a>
+        </li>
+      </ul>
     </div>
-    {% endfor %}
-    <br />
-    {% block body %} {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
+  </nav>
 
-    <script>
-      var store = new Vuex.Store({
-        state: {
-          numItems: {{cart.get_total_length }},
-          {% comment %} totalCost: {{cart.get_total_cost }}, {% endcomment %}
-        },
-        mutations: {
-          increment(state, quantity) {
-            state.numItems += quantity;
-          },
-          changeTotalCost(state, newCost) {
-            state.totalCost += newCost;
-          },
+  {% for message in messages %}
 
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong></strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  <br />
+  {% block body %} {% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
+
+  <script>
+    var store = new Vuex.Store({
+      state: {
+        numItems: {{ cart.get_total_length }},
+    {% comment %} totalCost: { { cart.get_total_cost } }, {% endcomment %}
         },
+    mutations: {
+      increment(state, quantity) {
+        state.numItems += quantity;
+      },
+      changeTotalCost(state, newCost) {
+        state.totalCost += newCost;
+      },
+
+    },
       });
-      var navbarapp = new Vue({
-        el: "#navbarapp",
-        delimiters: ["[[", "]]"],
-        store: store,
+    var navbarapp = new Vue({
+      el: "#navbarapp",
+      delimiters: ["[[", "]]"],
+      store: store,
 
-        computed: {
-          numItems: function() {
-            return store.state.numItems;
-          },
+      computed: {
+        numItems: function () {
+          return store.state.numItems;
         },
-      });
-    </script>
-    {% block js %} {% endblock %}
+      },
+    });
+  </script>
+  {% block js %} {% endblock %}
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.js"
-      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

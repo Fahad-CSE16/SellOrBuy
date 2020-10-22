@@ -85,10 +85,11 @@ class EditProdView(generic.UpdateView):
         id = self.kwargs['pk']
         return reverse_lazy('product:addsub', kwargs={'pk': id})
 
-def delete(request,pk):
-    prod=Product.objects.filter(id=pk)
+def delete(request,id):
+    prod=Product.objects.get(id=id)
+    print(prod.name)
     prod.delete()
-    return redirect('product:show')
+    return redirect('product:myprod')
 def variantadd(request,id):
     if request.method=="POST":
         form=VariantForm(request.POST,request.FILES)
