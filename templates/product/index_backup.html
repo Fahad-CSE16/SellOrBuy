@@ -10,7 +10,7 @@
 
       <div class="input-group mb-3">
         <select class="custom-select" id="inputGroupSelect01" name="district_i">
-          <option></option>
+          <option value="{{dis}}">{{dis}}</option>
           {% for i in district %}
           <option value="{{i}}">{{i}}</option>
           {% endfor %}
@@ -22,7 +22,7 @@
 
       <div class="input-group mb-3">
         <select class="custom-select" id="inputGroupSelect03" name="category_i">
-          <option></option>
+          <option value="{{cat}}">{{cat}}</option>
           {% for i in category %}
           <option value="{{i}}">{{i}}</option>
           {% endfor %}
@@ -31,89 +31,111 @@
           <label class="input-group-text" for="inputGroupSelect03">Category</label>
         </div>
       </div>
+      <div class="input-group mb-3">
+
+        <select class="custom-select" id="inputGroupSelect01" name="sorting">
+
+          <option value="-timeStamp" {% if sorting == '-timeStamp' %}selected{% endif %}>Newest First</option>
+          <option value="price" {% if sorting == 'price' %}selected{% endif %}>Price Low to High</option>
+          <option value="-price" {% if sorting == '-price' %}selected{% endif %}>Price High to Low</option>
+        </select>
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Sort By</label>
+        </div>
+      </div>
+      <div class=" row">
+        <div class="col form-group">
+          <label>Price From</label>
+          <input type="number" class="form-control" name="price_from" value="{{price_from}}"></div>
+        <div class="col form-group">
+          <label>Price TO</label>
+          <input type="number" class="form-control" name="price_to" value="{{price_to}}"></div>
+      </div>
+
+      <div class="form-check justify-content-left">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="inStock"
+          {% if inStock %}checked="checked" {% endif %}>
+        <label class="form-check-label" for="exampleCheck1">In Stock</label>
+      </div>
+
   </div>
   <button class="btn btn-outline-info " type="submit" value="submit">Filter Products </button>
   </form>
 </div>
-</div>
+
 {% if results %}
-<div class="container-fluid">
+<div class="container-fluid" id="productapp">
   <h5 class="my-4">Flash Sale On -{{cat}}- Recommended Items in -{{dis}} </h5>
   <div class="row">
     {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
     {% with results as products %}
-{% include 'product/result.html' %}
-{% endwith %}
-  
+    {% include 'product/result.html' %}
+    {% endwith %}
+
   </div>
-  {% endif %}
+</div>
+{% endif %}
 
 
 
-  <div class="container-fluid " id="productapp">
-    <nav id="navbar-example3" class="navbar navbar-light ">
-      <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
-        <strong></strong>Product has added to the cart.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
-      <nav class="navbar fixed-bottom bg-white m-auto">
+<div class="container-fluid " id="productapp">
+  <nav id="navbar-example3" class="navbar navbar-light ">
 
-        {% for cat in category %}
-        <a class="nav-link deactive" href="#{{cat.name}}">{{cat.name}}</a>
-        {% endfor %}
-      </nav>
+    {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
+    <nav class="navbar fixed-bottom bg-white m-auto">
+
+      {% for cat in category %}
+      <a class="nav-link deactive" href="#{{cat.name}}">{{cat.name}}</a>
+      {% endfor %}
     </nav>
+  </nav>
 
 
-    {% for product, range, nSlides in allProds %}
-    <h4 id="{{product.0.category}}">Flash Sale On {{product.0.category}} - Recommended Items</h4>
-    <div class="row" data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-      {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
-      {% for i in product %}
-      <div class="col-md-4 col-lg-3 col-sm-4 col-12 col-xl-2 py-2 mb-5">
-        <div class="card text-left font-10  text-white border " style="background:none;">
-          <div class="card-image p-0  m-0">
-            <figure class="image">
-              <img src='{{i.image.url}}' class="card-img-top border d-block m-auto" style=" height:200px; " alt="...">
-            </figure>
+  {% for product, range, nSlides in allProds %}
+  <div class="heading" id="{{product.0.category}}">
+    <h1>CATEGORY &emsp;: {{product.0.category}} &emsp;</h1>
+  </div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
+    <strong>Product has added to the cart.</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row">
+
+    {% for i in product %}
+    <div class="col ">
+
+      <div class="swiper-slide">
+        <div class="slider-box">
+          <p class="time">New</p>
+          <div class="img-box">
+            <img src="{{i.image.url}}" />
           </div>
-          <div class="card-body text-white p-0 pl-2 m-0">
-            <h5 class="card-title text-white font-italic" id="namepr{{i.id}}">{{i.name}}</h5>
-            {% comment %} <p class="card-text">Subcategory: {{i.subcategory}}</p> {% endcomment %}
-            {% comment %} <p class="card-text">in{{i.subdistrict}},{{i.district}}</p>
-            <p class="card-text">{{i.specifications|slice:"0:53"}}...</p> {% endcomment %}
-            <p class="card-text font-italic">Price: Tk.<span id="pricepr{{i.id}}">{{i.price}}</span>only</p>
-            {% comment %} <span id="divpr{{i.id}}" class="divpr">
-              <a id="pr{{i.id}}" href="" class=" cart">Add To Cart</a>
-            </span> {% endcomment %}
-            <button class="btn btn-outline-primary btn-xs"><a id="qv{{i.id}}" 
-                href="/prod/{{i.id}}/">QuickView</a></button>
-
+          <p class="detail text-dark">
+            {{i.name}}
+            <a href="#" class="price">Price-{{i.price}}Tk</a>
+            <a class="price" href="/prod/{{i.id}}/">QuickView</a>
+          </p>
+          <div class="cart">
             {% if i.in_cart %}
-            <p>Already In Cart</p>
+            <a href="#">Already in Cart</a>
+            {% else %} {% if i.available_quantity > 0 %}
+            <a @click="addToCart({{i.id}})" href="#">Add To Cart</a>
             {% else %}
-            {% if i.available_quantity > 0 %}
-            <button class="btn btn-outline-primary mx-2 my-3 text-white" @click="addToCart({{i.id}})">Add to
-              Cart</button>
-            {% else %}
-            <p class="text-error border">Out Of Stock</p>
-            {% endif %}
-            {% endif %}
-
+            <a href="#">Out of Stock</a>
+            {% endif %} {% endif %}
           </div>
         </div>
       </div>
-      {% endfor %}
+
+
     </div>
     {% endfor %}
   </div>
+  {% endfor %}
 </div>
 
-</div>
-</div>
 
 
 

@@ -32,78 +32,80 @@
         </div>
       </div>
       <div class="input-group mb-3">
-        
+
         <select class="custom-select" id="inputGroupSelect01" name="sorting">
-          
+
           <option value="-timeStamp" {% if sorting == '-timeStamp' %}selected{% endif %}>Newest First</option>
-          <option value="price"{% if sorting == 'price' %}selected{% endif %}>Price Low to High</option>
-          <option value="-price"{% if sorting == '-price' %}selected{% endif %}>Price High to Low</option>
+          <option value="price" {% if sorting == 'price' %}selected{% endif %}>Price Low to High</option>
+          <option value="-price" {% if sorting == '-price' %}selected{% endif %}>Price High to Low</option>
         </select>
         <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect01" >Sort By</label>
+          <label class="input-group-text" for="inputGroupSelect01">Sort By</label>
         </div>
       </div>
       <div class=" row">
-      <div class="col form-group">
-        <label >Price From</label>
-        <input type="number" class="form-control" name="price_from" value="{{price_from}}"></div>
-      <div class="col form-group">
-        <label >Price TO</label>
-        <input type="number" class="form-control" name="price_to" value="{{price_to}}"></div>
+        <div class="col form-group">
+          <label>Price From</label>
+          <input type="number" class="form-control" name="price_from" value="{{price_from}}"></div>
+        <div class="col form-group">
+          <label>Price TO</label>
+          <input type="number" class="form-control" name="price_to" value="{{price_to}}"></div>
       </div>
-      
+
       <div class="form-check justify-content-left">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="inStock" {% if inStock %}checked="checked"{% endif %}>
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="inStock"
+          {% if inStock %}checked="checked" {% endif %}>
         <label class="form-check-label" for="exampleCheck1">In Stock</label>
       </div>
-      
+
   </div>
   <button class="btn btn-outline-info " type="submit" value="submit">Filter Products </button>
   </form>
 </div>
-</div>
+
 {% if results %}
 <div class="container-fluid" id="productapp">
   <h5 class="my-4">Flash Sale On -{{cat}}- Recommended Items in -{{dis}} </h5>
   <div class="row">
     {% comment %} <img src="{{product.0.image.url}}" alt=""> {% endcomment %}
     {% with results as products %}
-{% include 'product/result.html' %}
-{% endwith %}
-  
+    {% include 'product/result.html' %}
+    {% endwith %}
+
   </div>
-  {% endif %}
-
-
-
-  <div class="container-fluid " id="productapp">
-    <nav id="navbar-example3" class="navbar navbar-light ">
-      
-      {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
-      <nav class="navbar fixed-bottom bg-white m-auto">
-
-        {% for cat in category %}
-        <a class="nav-link deactive" href="#{{cat.name}}">{{cat.name}}</a>
-        {% endfor %}
-      </nav>
-    </nav>
-
-
-    {% for product, range, nSlides in allProds %}
-    <div class="heading" id="{{product.0.category}}">
-  <h1>CATEGORY &emsp;: {{product.0.category}} &emsp;</h1>
 </div>
-<div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
-        <strong>Product has added to the cart.</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div class="row" >
+{% endif %}
 
-      {% for i in product %}
-      <div class="col ">
-        
+
+
+<div class="container-fluid " id="productapp">
+  <nav id="navbar-example3" class="navbar navbar-light ">
+
+    {% comment %} <a class="navbar-brand" href="#">Scroll</a> {% endcomment %}
+    <nav class="navbar fixed-bottom bg-white m-auto">
+
+      {% for cat in category %}
+      <a class="nav-link deactive" href="#{{cat.name}}">{{cat.name}}</a>
+      {% endfor %}
+    </nav>
+  </nav>
+
+
+  {% for product, range, nSlides in allProds %}
+  <div class="heading" id="{{product.0.category}}">
+    <h1>CATEGORY &emsp;: {{product.0.category}} &emsp;</h1>
+  </div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" v-if="showMeassage">
+    <strong>Product has added to the cart.</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row">
+
+    {% for i in product %}
+    <div class="col mb-5 mx-1 ">
+
       <div class="swiper-slide">
         <div class="slider-box">
           <p class="time">New</p>
@@ -127,16 +129,13 @@
         </div>
       </div>
 
-      
-      </div>
-      {% endfor %}
+
     </div>
     {% endfor %}
   </div>
+  {% endfor %}
 </div>
 
-</div>
-</div>
 
 
 
